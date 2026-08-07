@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebRevive AI — We Rebuild Websites for Local Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --white:   #FFFFFF;
+  --bg:      #F5F5F7;
+  --bg2:     #FBFBFD;
+  --ink:     #1D1D1F;
+  --ink2:    #3A3A3C;
+  --mid:     #6E6E73;
+  --light:   #AEAEB2;
+  --border:  #D2D2D7;
+  --blue:    #0071E3;
+  --blue2:   #0077ED;
+  --green:   #30D158;
+  --red:     #FF3B30;
+  --ff:      'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ease:    cubic-bezier(.25,.46,.45,.94);
+  --ease2:   cubic-bezier(.16,1,.3,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ff);
+  background: var(--white);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+img { display: block; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 22px;
+  background: rgba(255,255,255,.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: .5px solid rgba(0,0,0,.12);
+}
+.nav-logo {
+  font-size: .95rem; font-weight: 700;
+  letter-spacing: -.3px; color: var(--ink);
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-logo-icon {
+  width: 26px; height: 26px;
+  background: var(--ink);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+.nav-links {
+  list-style: none; display: flex; gap: 28px;
+  font-size: .8rem; font-weight: 400; color: var(--ink2);
+}
+.nav-links a:hover { color: var(--blue); }
+.nav-cta {
+  padding: 8px 18px;
+  background: var(--blue);
+  color: #fff; border-radius: 980px;
+  font-size: .8rem; font-weight: 500;
+  transition: background .2s, transform .15s;
+}
+.nav-cta:hover { background: var(--blue2); transform: scale(1.02); }
+
+/* ── HERO ── */
+.hero {
+  padding: 100px 24px 60px;
+  text-align: center;
+  background: var(--white);
+}
+.hero-kicker {
+  display: inline-block;
+  font-size: .75rem; font-weight: 600;
+  color: var(--blue); letter-spacing: .01em;
+  margin-bottom: 16px;
+  animation: fadeUp .6s var(--ease2) both;
+}
+.hero h1 {
+  font-size: clamp(2.4rem, 6vw, 4.4rem);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.06;
+  color: var(--ink);
+  margin-bottom: 18px;
+  animation: fadeUp .6s var(--ease2) .08s both;
+}
+.hero h1 span { color: var(--blue); }
+.hero-sub {
+  font-size: clamp(.95rem, 2vw, 1.15rem);
+  font-weight: 400;
+  color: var(--mid);
+  line-height: 1.65;
+  max-width: 560px; margin: 0 auto 36px;
+  animation: fadeUp .6s var(--ease2) .16s both;
+}
+.hero-btns {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  margin-bottom: 64px;
+  animation: fadeUp .6s var(--ease2) .24s both;
+}
+.btn-blue {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  background: var(--blue); color: #fff;
+  border-radius: 980px;
+  font-size: .95rem; font-weight: 500;
+  transition: all .2s var(--ease);
+}
+.btn-blue:hover { background: var(--blue2); transform: scale(1.02); box-shadow: 0 6px 24px rgba(0,113,227,.28); }
+.btn-text {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 14px 20px;
+  font-size: .95rem; font-weight: 500; color: var(--blue);
+  border-radius: 980px;
+  transition: background .2s;
+}
+.btn-text:hover { background: rgba(0,113,227,.06); }
+.btn-text svg { transition: transform .2s; }
+.btn-text:hover svg { transform: translateX(3px); }
+
+/* ── TRUST BAR ── */
+.trust-bar {
+  display: flex; align-items: center; justify-content: center; gap: 32px;
+  padding: 20px 24px 0;
+  font-size: .78rem; color: var(--mid);
+  flex-wrap: wrap;
+  animation: fadeUp .6s var(--ease2) .3s both;
+}
+.trust-item { display: flex; align-items: center; gap: 7px; }
+.trust-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+
+/* ── BEFORE/AFTER HERO SHOWCASE ── */
+.ba-hero {
+  padding: 0 24px 80px;
+  max-width: 1100px; margin: 0 auto;
+}
+.ba-hero-label {
+  text-align: center;
+  font-size: .75rem; font-weight: 600; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--mid);
+  margin-bottom: 28px;
+}
+.ba-cards {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.ba-card {
+  border-radius: 18px; overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06), 0 12px 40px rgba(0,0,0,.09);
+}
+.ba-card-label {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 18px;
+  font-size: .78rem; font-weight: 700;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.label-before { background: #FFF5F5; color: var(--red); }
+.label-after  { background: #F0FFF4; color: #1A7F3C; }
+.label-dot { width: 8px; height: 8px; border-radius: 50%; }
+.label-before .label-dot { background: var(--red); }
+.label-after  .label-dot { background: var(--green); }
+
+/* BEFORE MOCKUP — old ugly site */
+.mock-before {
+  background: #F0EDE5;
+  padding: 0;
+  font-family: 'Times New Roman', serif;
+}
+.mb-nav {
+  background: #3A3A6A;
+  padding: 10px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.mb-nav-logo { font-size: 11px; font-weight: 700; color: #FFD700; letter-spacing: 1px; }
+.mb-nav-links { display: flex; gap: 12px; }
+.mb-nav-link { font-size: 9px; color: #ccc; text-decoration: underline; cursor: pointer; }
+.mb-hero {
+  background: linear-gradient(180deg, #6B8CAE 0%, #4A6F8A 100%);
+  padding: 24px 16px; text-align: center;
+}
+.mb-hero-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; font-family: 'Times New Roman', serif; }
+.mb-hero-sub { font-size: 9px; color: rgba(255,255,255,.75); margin-bottom: 14px; }
+.mb-hero-btn {
+  display: inline-block;
+  background: #FFD700; color: #333;
+  padding: 6px 14px; font-size: 9px;
+  font-weight: 700; border: 2px outset #FFD700;
+  cursor: pointer; font-family: Arial, sans-serif;
+}
+.mb-body { padding: 16px; }
+.mb-body-title { font-size: 12px; font-weight: 700; color: #333; margin-bottom: 8px; border-bottom: 2px solid #3A3A6A; padding-bottom: 4px; }
+.mb-text-lines { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+.mb-line { height: 6px; background: #C0B8A8; border-radius: 2px; }
+.mb-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 8px; margin-bottom: 12px;
+}
+.mb-table td { border: 1px solid #999; padding: 4px 6px; color: #444; }
+.mb-table tr:nth-child(even) td { background: #E8E4DA; }
+.mb-counter {
+  background: #3A3A6A; color: #FFD700;
+  font-size: 8px; padding: 6px; text-align: center;
+  margin-bottom: 8px;
+}
+.mb-footer {
+  background: #222; padding: 8px 16px;
+  font-size: 7.5px; color: #888; text-align: center;
+  font-family: Arial, sans-serif;
+}
+.mb-issues {
+  background: #FFF3F3;
+  border-top: 2px solid #FF3B30;
+  padding: 8px 14px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.mb-issue { font-size: 8px; color: #CC2200; display: flex; align-items: center; gap: 5px; font-family: Arial, sans-serif; font-weight: 600; }
+
+/* AFTER MOCKUP — beautiful modern site */
+.mock-after {
+  background: #FFFFFF;
+}
+.ma-nav {
+  padding: 12px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: .5px solid #F0F0F0;
+}
+.ma-logo { font-size: 11px; font-weight: 800; color: #1D1D1F; letter-spacing: -.3px; }
+.ma-nav-links { display: flex; gap: 14px; }
+.ma-nav-link { font-size: 8px; color: #6E6E73; font-weight: 500; }
+.ma-nav-btn { font-size: 8px; background: #0071E3; color: #fff; padding: 4px 10px; border-radius: 980px; font-weight: 600; }
+.ma-hero {
+  background: linear-gradient(180deg, #F5F8FF 0%, #FFFFFF 100%);
+  padding: 24px 18px; text-align: center;
+}
+.ma-eyebrow { font-size: 8px; font-weight: 600; color: #0071E3; letter-spacing: .04em; margin-bottom: 8px; }
+.ma-title { font-size: 16px; font-weight: 800; color: #1D1D1F; letter-spacing: -.4px; line-height: 1.15; margin-bottom: 6px; }
+.ma-sub { font-size: 8.5px; color: #6E6E73; line-height: 1.5; margin-bottom: 14px; max-width: 220px; margin-left: auto; margin-right: auto; }
+.ma-cta { display: inline-block; background: #0071E3; color: #fff; padding: 7px 18px; border-radius: 980px; font-size: 8.5px; font-weight: 600; margin-bottom: 6px; }
+.ma-sub-cta { font-size: 7.5px; color: #0071E3; display: flex; align-items: center; justify-content: center; gap: 3px; }
+.ma-social {
+  display: flex; gap: 6px; padding: 14px 18px;
+  border-top: .5px solid #F0F0F0; border-bottom: .5px solid #F0F0F0;
+}
+.ma-soc-item { flex: 1; text-align: center; padding: 8px 4px; }
+.ma-soc-num { font-size: 11px; font-weight: 800; color: #1D1D1F; }
+.ma-soc-lbl { font-size: 6.5px; color: #6E6E73; margin-top: 1px; }
+.ma-services {
+  padding: 14px 18px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+}
+.ma-svc-card {
+  background: #F5F5F7; border-radius: 8px;
+  padding: 10px; 
+}
+.ma-svc-icon { font-size: 14px; margin-bottom: 4px; }
+.ma-svc-title { font-size: 8px; font-weight: 700; color: #1D1D1F; margin-bottom: 2px; }
+.ma-svc-desc { font-size: 6.5px; color: #6E6E73; line-height: 1.4; }
+.ma-reviews {
+  padding: 12px 18px;
+  background: #F5F5F7;
+}
+.ma-rev-title { font-size: 8px; font-weight: 700; color: #1D1D1F; margin-bottom: 8px; }
+.ma-rev-card { background: #fff; border-radius: 6px; padding: 7px 8px; margin-bottom: 5px; }
+.ma-rev-stars { font-size: 7px; color: #FF9500; margin-bottom: 3px; }
+.ma-rev-text { font-size: 6.5px; color: #3A3A3C; line-height: 1.4; font-style: italic; }
+.ma-rev-name { font-size: 6px; color: #6E6E73; margin-top: 2px; font-weight: 600; }
+.ma-footer { background: #1D1D1F; padding: 10px 18px; text-align: center; }
+.ma-footer-txt { font-size: 7px; color: rgba(255,255,255,.45); }
+
+/* ── SECTION STYLES ── */
+.section { padding: 96px 24px; }
+.section-alt { background: var(--bg); }
+.section-inner { max-width: 1080px; margin: 0 auto; }
+.eyebrow {
+  font-size: .75rem; font-weight: 600;
+  color: var(--blue); letter-spacing: .03em;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 800; letter-spacing: -1px;
+  line-height: 1.08; color: var(--ink);
+  margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 1rem; color: var(--mid);
+  line-height: 1.7; font-weight: 400;
+  max-width: 520px;
+}
+
+/* ── MORE BEFORE/AFTER EXAMPLES ── */
+.examples-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 56px;
+}
+.example-card {
+  border-radius: 18px; overflow: hidden;
+  border: 1px solid var(--border);
+  transition: transform .25s var(--ease2), box-shadow .25s;
+}
+.example-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,.1); }
+.ex-industry {
+  padding: 12px 16px;
+  background: var(--bg);
+  font-size: .72rem; font-weight: 700;
+  color: var(--mid); letter-spacing: .06em; text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ex-badge {
+  font-size: .65rem; padding: 3px 9px;
+  border-radius: 20px; font-weight: 700;
+}
+.badge-up { background: #F0FFF4; color: #1A7F3C; }
+/* Individual mockup panels stacked */
+.ex-before, .ex-after { padding: 16px; }
+.ex-before { background: #F8F6F0; border-bottom: 1px solid var(--border); }
+.ex-after  { background: #FFFFFF; }
+.ex-tag {
+  font-size: .65rem; font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: 10px; display: flex; align-items: center; gap: 5px;
+}
+.tag-b { color: var(--red); }
+.tag-a { color: #1A7F3C; }
+
+/* Restaurant before */
+.rest-before-nav { height: 20px; background: #8B1A1A; border-radius: 2px; margin-bottom: 8px; display: flex; align-items: center; padding: 0 8px; }
+.rest-before-nav span { font-size: 8px; color: #FFD700; font-weight: 700; font-family: serif; }
+.rest-before-hero { height: 60px; background: repeating-linear-gradient(45deg,#C8A87A,#C8A87A 4px,#B89A6C 4px,#B89A6C 8px); border-radius: 4px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; }
+.rest-before-hero span { font-size: 9px; color: #fff; font-weight: 700; text-shadow: 1px 1px 2px #000; font-family: serif; text-align: center; }
+.rest-before-text { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+.rest-before-line { height: 5px; background: #C8B89A; border-radius: 2px; }
+.rest-before-issue { font-size: 7px; color: var(--red); font-weight: 700; }
+
+/* Restaurant after */
+.rest-after-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.rest-after-logo { font-size: 10px; font-weight: 800; color: #1D1D1F; font-style: italic; }
+.rest-after-btn2 { font-size: 7px; background: #1D1D1F; color: #fff; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
+.rest-after-hero { background: linear-gradient(135deg,#2C1810,#5C3317); border-radius: 8px; padding: 14px 12px; margin-bottom: 8px; text-align: center; }
+.rest-after-title { font-size: 12px; font-weight: 800; color: #fff; letter-spacing: -.3px; margin-bottom: 3px; }
+.rest-after-sub2 { font-size: 7px; color: rgba(255,255,255,.65); margin-bottom: 8px; }
+.rest-after-cta2 { display: inline-block; background: #FF9500; color: #fff; font-size: 7px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+.rest-after-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+.rest-tag { font-size: 6.5px; background: #F5F5F7; color: #3A3A3C; padding: 3px 6px; border-radius: 4px; font-weight: 500; }
+.rest-stars { font-size: 7px; color: #FF9500; }
+.rest-stars span { color: #6E6E73; font-size: 6.5px; }
+
+/* Plumber before */
+.plumb-before-nav { background: #1A3A5C; padding: 6px 10px; margin-bottom: 8px; border-radius: 2px; }
+.plumb-before-nav span { font-size: 9px; color: #fff; font-weight: 700; }
+.plumb-before-hero { background: #2A5A8C; border-radius: 4px; padding: 12px; margin-bottom: 8px; text-align: center; }
+.plumb-before-hero h4 { font-size: 10px; color: #fff; font-weight: 700; margin-bottom: 3px; }
+.plumb-before-hero p { font-size: 7px; color: rgba(255,255,255,.65); }
+.plumb-before-list { margin-bottom: 8px; }
+.plumb-before-item { font-size: 7.5px; color: #444; padding: 2px 0; border-bottom: 1px solid #ddd; display: flex; align-items: center; gap: 4px; }
+.plumb-before-item::before { content: '•'; color: #2A5A8C; }
+.plumb-before-issue { font-size: 7px; color: var(--red); font-weight: 700; }
+
+/* Plumber after */
+.plumb-after-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.plumb-after-logo { font-size: 10px; font-weight: 800; color: #1D1D1F; }
+.plumb-after-phone { font-size: 7.5px; color: #0071E3; font-weight: 600; }
+.plumb-after-hero { background: linear-gradient(135deg, #F0F8FF, #E8F4FF); border-radius: 8px; padding: 14px 12px; margin-bottom: 8px; }
+.plumb-after-badge { font-size: 6.5px; color: #0071E3; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 5px; }
+.plumb-after-title { font-size: 13px; font-weight: 800; color: #1D1D1F; letter-spacing: -.4px; line-height: 1.2; margin-bottom: 5px; }
+.plumb-after-cta3 { display: inline-block; background: #0071E3; color: #fff; font-size: 7px; font-weight: 700; padding: 4px 10px; border-radius: 20px; margin-bottom: 6px; }
+.plumb-after-guarantee { font-size: 6.5px; color: #1A7F3C; font-weight: 600; }
+.plumb-cards { display: flex; gap: 4px; margin-bottom: 6px; }
+.plumb-card { flex: 1; background: #F5F5F7; border-radius: 5px; padding: 6px 4px; text-align: center; }
+.plumb-card-val { font-size: 10px; font-weight: 800; color: #1D1D1F; }
+.plumb-card-lbl { font-size: 5.5px; color: #6E6E73; }
+
+/* Salon before */
+.salon-before-bg { background: #FFF8F5; }
+.salon-before-nav { background: #D4A0C0; padding: 7px 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+.salon-before-nav span { font-size: 10px; color: #fff; font-weight: 700; font-family: cursive; }
+.salon-before-hero { text-align: center; padding: 10px; margin-bottom: 8px; }
+.salon-before-hero h4 { font-size: 11px; color: #D4A0C0; font-family: cursive; font-weight: 700; margin-bottom: 4px; }
+.salon-before-hero p { font-size: 7.5px; color: #888; }
+.salon-before-img { height: 50px; background: repeating-linear-gradient(0deg,#EED5E5,#EED5E5 3px,#F8EDF5 3px,#F8EDF5 9px); border-radius: 4px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; }
+.salon-before-img span { font-size: 7px; color: #C080A8; font-style: italic; }
+.salon-before-issue { font-size: 7px; color: var(--red); font-weight: 700; }
+
+/* Salon after */
+.salon-after-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.salon-after-logo { font-size: 10px; font-weight: 800; color: #1D1D1F; letter-spacing: .02em; }
+.salon-after-book { font-size: 7px; background: #1D1D1F; color: #fff; padding: 3px 8px; border-radius: 20px; font-weight: 600; }
+.salon-after-hero { background: linear-gradient(135deg, #FFF5F8, #FFF0F5); border-radius: 10px; padding: 16px 12px; margin-bottom: 8px; text-align: center; }
+.salon-after-pre { font-size: 7px; font-weight: 700; color: #C0527A; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; }
+.salon-after-title { font-size: 14px; font-weight: 800; color: #1D1D1F; letter-spacing: -.4px; line-height: 1.2; margin-bottom: 5px; }
+.salon-after-cta4 { display: inline-block; background: #1D1D1F; color: #fff; font-size: 7.5px; font-weight: 700; padding: 5px 12px; border-radius: 20px; margin-bottom: 6px; }
+.salon-after-services { display: flex; gap: 4px; flex-wrap: wrap; }
+.salon-svc { font-size: 6.5px; border: 1px solid #F0D8E4; color: #C0527A; padding: 3px 7px; border-radius: 20px; font-weight: 500; background: #FFF5F8; }
+
+/* ── STATS STRIP ── */
+.stats-strip {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  background: var(--white);
+}
+.stat-item {
+  padding: 48px 0; text-align: center;
+  border-right: 1px solid var(--border);
+  transition: background .2s;
+}
+.stat-item:last-child { border-right: none; }
+.stat-item:hover { background: var(--bg); }
+.stat-num {
+  font-size: 3.2rem; font-weight: 800;
+  letter-spacing: -1.5px; color: var(--ink);
+  margin-bottom: 4px; line-height: 1;
+}
+.stat-num span { color: var(--blue); }
+.stat-label { font-size: .78rem; color: var(--mid); }
+
+/* ── HOW IT WORKS ── */
+.how-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 2px; margin-top: 56px;
+  background: var(--border); border-radius: 18px; overflow: hidden;
+}
+.how-step {
+  background: var(--white); padding: 40px 32px;
+  transition: background .2s;
+}
+.how-step:hover { background: var(--bg); }
+.step-num-label {
+  font-size: .7rem; font-weight: 700;
+  color: var(--blue); letter-spacing: .06em;
+  text-transform: uppercase; margin-bottom: 20px;
+}
+.step-icon {
+  width: 48px; height: 48px;
+  background: var(--bg);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 18px;
+  transition: background .2s;
+}
+.how-step:hover .step-icon { background: rgba(0,113,227,.08); }
+.how-step h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; color: var(--ink); letter-spacing: -.2px; }
+.how-step p { font-size: .875rem; color: var(--mid); line-height: 1.65; }
+
+/* ── SERVICES ── */
+.svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 56px; }
+.svc-card {
+  border: 1px solid var(--border); border-radius: 18px;
+  padding: 40px 36px; background: var(--white);
+  transition: transform .25s var(--ease2), box-shadow .25s;
+  position: relative; overflow: hidden;
+}
+.svc-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  opacity: 0; transition: opacity .25s;
+}
+.svc-1::before { background: linear-gradient(90deg, #0071E3, #34AADC); }
+.svc-2::before { background: linear-gradient(90deg, #30D158, #34C759); }
+.svc-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,.09); }
+.svc-card:hover::before { opacity: 1; }
+.svc-emoji { font-size: 2.2rem; margin-bottom: 18px; }
+.svc-card h3 { font-size: 1.4rem; font-weight: 800; letter-spacing: -.3px; margin-bottom: 10px; }
+.svc-card > p { font-size: .9rem; color: var(--mid); line-height: 1.65; margin-bottom: 24px; }
+.svc-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.svc-list li { display: flex; gap: 10px; font-size: .85rem; color: var(--ink2); }
+.svc-list li::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
+.svc-2 .svc-list li::before { color: var(--green); }
+.svc-price-row {
+  margin-top: 28px; padding-top: 22px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: baseline; gap: 8px;
+}
+.svc-price { font-size: 2rem; font-weight: 800; letter-spacing: -.5px; color: var(--ink); }
+.svc-per { font-size: .8rem; color: var(--mid); }
+
+/* ── TESTIMONIALS ── */
+.testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 56px; }
+.tcard {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 18px; padding: 28px;
+  transition: transform .2s var(--ease2), box-shadow .2s;
+}
+.tcard:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0,0,0,.08); }
+.tcard-stars { color: #FF9500; font-size: .95rem; letter-spacing: 1px; margin-bottom: 14px; }
+.tcard-quote { font-size: .875rem; color: var(--ink2); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+.tcard-person { display: flex; align-items: center; gap: 10px; }
+.tcard-avi {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.tcard-name { font-size: .85rem; font-weight: 700; }
+.tcard-biz { font-size: .72rem; color: var(--mid); margin-top: 1px; }
+
+/* ── CTA ── */
+.cta-section {
+  background: var(--ink);
+  padding: 100px 24px;
+  text-align: center;
+}
+.cta-inner { max-width: 640px; margin: 0 auto; }
+.cta-section h2 {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 800; letter-spacing: -1px;
+  color: var(--white); line-height: 1.08;
+  margin-bottom: 18px;
+}
+.cta-section p { font-size: 1rem; color: rgba(255,255,255,.65); line-height: 1.7; margin-bottom: 40px; }
+.btn-white {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 16px 32px;
+  background: var(--white); color: var(--ink);
+  border-radius: 980px; font-size: .95rem; font-weight: 600;
+  transition: all .2s var(--ease);
+}
+.btn-white:hover { background: #E8E8ED; transform: scale(1.02); }
+.cta-fine { margin-top: 18px; font-size: .75rem; color: rgba(255,255,255,.35); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg); border-top: 1px solid var(--border);
+  padding: 40px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-logo { font-size: .95rem; font-weight: 700; color: var(--mid); display: flex; align-items: center; gap: 8px; }
+.footer-copy { font-size: .75rem; color: var(--light); }
+.footer-links { display: flex; gap: 24px; font-size: .78rem; color: var(--mid); }
+.footer-links a:hover { color: var(--blue); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease2), transform .7s var(--ease2); }
+.reveal.in { opacity: 1; transform: none; }
+.d1 { transition-delay: .1s; }
+.d2 { transition-delay: .2s; }
+.d3 { transition-delay: .3s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  nav { padding: 0 16px; }
+  .nav-links { display: none; }
+  .hero { padding: 80px 18px 40px; }
+  .ba-cards { grid-template-columns: 1fr; }
+  .examples-grid { grid-template-columns: 1fr; }
+  .how-grid { grid-template-columns: 1fr; }
+  .svc-grid { grid-template-columns: 1fr; }
+  .stats-strip { grid-template-columns: 1fr 1fr; }
+  .testi-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 16px; text-align: center; padding: 28px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">⚡</div>
+    WebRevive AI
+  </div>
+  <ul class="nav-links">
+    <li><a href="#examples">Before & After</a></li>
+    <li><a href="#process">How It Works</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+  </ul>
+  <a href="https://calendly.com/dave-webreviveai/30min" target="_blank" class="nav-cta">Book Free Consult</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-kicker">WebRevive AI — Website Revival for Local Businesses</div>
+  <h1>Your website should be<br>winning you <span>customers.</span></h1>
+  <p class="hero-sub">We rebuild outdated local business websites into clean, modern, high-converting sites — then add an AI assistant that books appointments around the clock.</p>
+  <div class="hero-btns">
+    <a href="https://calendly.com/dave-webreviveai/30min?utm_source=website&utm_campaign=hero" target="_blank" class="btn-blue">
+      Book Your Free Consult
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="#examples" class="btn-text">
+      See before & after
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+  <div class="trust-bar">
+    <div class="trust-item"><span class="trust-dot"></span>47 businesses revived this month</div>
+    <div class="trust-item"><span class="trust-dot"></span>48-hour delivery</div>
+    <div class="trust-item"><span class="trust-dot"></span>3.2× more leads on average</div>
+    <div class="trust-item"><span class="trust-dot"></span>Free consult, no obligation</div>
+  </div>
+</section>
+
+<!-- HERO BEFORE/AFTER -->
+<div class="ba-hero" id="examples">
+  <div class="ba-hero-label">Real client transformation — Auto Repair shop</div>
+  <div class="ba-cards reveal">
+
+    <!-- BEFORE -->
+    <div class="ba-card">
+      <div class="ba-card-label label-before">
+        <span class="label-dot"></span>
+        Before — Old, broken, losing customers
+      </div>
+      <div class="mock-before">
+        <div class="mb-nav">
+          <span class="mb-nav-logo">MIKE'S AUTO REPAIR</span>
+          <div class="mb-nav-links">
+            <span class="mb-nav-link">Home</span>
+            <span class="mb-nav-link">About</span>
+            <span class="mb-nav-link">Contact</span>
+          </div>
+        </div>
+        <div class="mb-hero">
+          <div class="mb-hero-title">WELCOME TO MIKE'S AUTO REPAIR</div>
+          <div class="mb-hero-sub">Serving Austin Since 1987 · Call Us Today!</div>
+          <div class="mb-hero-btn">CLICK HERE FOR INFO</div>
+        </div>
+        <div class="mb-body">
+          <div class="mb-body-title">Our Services</div>
+          <div class="mb-text-lines">
+            <div class="mb-line" style="width:95%"></div>
+            <div class="mb-line" style="width:80%"></div>
+            <div class="mb-line" style="width:88%"></div>
+            <div class="mb-line" style="width:72%"></div>
+          </div>
+          <table class="mb-table">
+            <tr><td>Oil Change</td><td>Call for price</td></tr>
+            <tr><td>Brakes</td><td>Call for price</td></tr>
+            <tr><td>Engine</td><td>Call for price</td></tr>
+          </table>
+          <div class="mb-counter">Visitor #: 002,847 &nbsp;|&nbsp; Last updated: 2019</div>
+        </div>
+        <div class="mb-issues">
+          <div class="mb-issue">⚠ Not secure (no HTTPS)</div>
+          <div class="mb-issue">⚠ Broken on mobile devices</div>
+          <div class="mb-issue">⚠ No online booking — phone only</div>
+          <div class="mb-issue">⚠ Loads in 8.4 seconds</div>
+          <div class="mb-issue">⚠ Last updated 2019</div>
+        </div>
+        <div class="mb-footer">© 2009 Mike's Auto Repair · Built with FrontPage 2003 · Best viewed in Internet Explorer</div>
+      </div>
+    </div>
+
+    <!-- AFTER -->
+    <div class="ba-card">
+      <div class="ba-card-label label-after">
+        <span class="label-dot"></span>
+        After — Clean, modern, booking appointments 24/7
+      </div>
+      <div class="mock-after">
+        <div class="ma-nav">
+          <div class="ma-logo">Mike's Auto Repair</div>
+          <div class="ma-nav-links">
+            <span class="ma-nav-link">Services</span>
+            <span class="ma-nav-link">Reviews</span>
+            <span class="ma-nav-link">About</span>
+          </div>
+          <div class="ma-nav-btn">Book Now</div>
+        </div>
+        <div class="ma-hero">
+          <div class="ma-eyebrow">Austin's Most Trusted Auto Repair</div>
+          <div class="ma-title">Same-Day Service.<br>Honest Pricing.</div>
+          <div class="ma-sub">Family-owned for 20+ years. Free estimates. We fix it right the first time.</div>
+          <div class="ma-cta">📅 Book Appointment — Free Estimate</div>
+          <div class="ma-sub-cta">
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M8 1v6l4 2" stroke="#0071E3" stroke-width="2" stroke-linecap="round"/></svg>
+            Available today · Usually responds in &lt;1 hour
+          </div>
+        </div>
+        <div class="ma-social">
+          <div class="ma-soc-item"><div class="ma-soc-num">4.9★</div><div class="ma-soc-lbl">Google Rating</div></div>
+          <div class="ma-soc-item"><div class="ma-soc-num">847</div><div class="ma-soc-lbl">Happy Clients</div></div>
+          <div class="ma-soc-item"><div class="ma-soc-num">20yr</div><div class="ma-soc-lbl">In Business</div></div>
+        </div>
+        <div class="ma-services">
+          <div class="ma-svc-card"><div class="ma-svc-icon">🔧</div><div class="ma-svc-title">Oil Changes</div><div class="ma-svc-desc">Quick 30-min service, all makes</div></div>
+          <div class="ma-svc-card"><div class="ma-svc-icon">🛞</div><div class="ma-svc-title">Brake Repair</div><div class="ma-svc-desc">Free brake inspection today</div></div>
+          <div class="ma-svc-card"><div class="ma-svc-icon">⚙️</div><div class="ma-svc-title">Engine Diag.</div><div class="ma-svc-desc">Computer diagnostic included</div></div>
+          <div class="ma-svc-card"><div class="ma-svc-icon">🔩</div><div class="ma-svc-title">Tire Service</div><div class="ma-svc-desc">Rotation, balance, and more</div></div>
+        </div>
+        <div class="ma-reviews">
+          <div class="ma-rev-title">What customers are saying</div>
+          <div class="ma-rev-card"><div class="ma-rev-stars">★★★★★</div><div class="ma-rev-text">"Fast, honest, and fair pricing. Mike's is the only place I trust with my car."</div><div class="ma-rev-name">— Sarah M., Austin TX</div></div>
+          <div class="ma-rev-card"><div class="ma-rev-stars">★★★★★</div><div class="ma-rev-text">"Booked online, dropped off, picked up same day. Couldn't be easier."</div><div class="ma-rev-name">— James T., Austin TX</div></div>
+        </div>
+        <div class="ma-footer"><div class="ma-footer-txt">© 2025 Mike's Auto Repair · Austin, TX · (512) 555-0192</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MORE BEFORE/AFTER EXAMPLES -->
+<section class="section section-alt">
+  <div class="section-inner">
+    <div class="eyebrow reveal">More Transformations</div>
+    <h2 class="section-title reveal">We've done this across<br>every industry.</h2>
+    <p class="section-sub reveal">Every business gets a fully custom site — not a template. Here's what we've done for restaurants, plumbers, and salons.</p>
+
+    <div class="examples-grid">
+
+      <!-- RESTAURANT -->
+      <div class="example-card reveal">
+        <div class="ex-industry">
+          🍽 Restaurant
+          <span class="ex-badge badge-up">+290% Reservations</span>
+        </div>
+        <div class="ex-before">
+          <div class="ex-tag tag-b">✗ Before</div>
+          <div class="rest-before-nav"><span>BELLA'S ITALIAN BISTRO</span></div>
+          <div class="rest-before-hero"><span>Fine Dining Since 1998<br>Denver, Colorado</span></div>
+          <div class="rest-before-text">
+            <div class="rest-before-line" style="width:90%"></div>
+            <div class="rest-before-line" style="width:75%"></div>
+            <div class="rest-before-line" style="width:82%"></div>
+          </div>
+          <div class="rest-before-issue">⚠ No online reservations · Flash plugin required · Not mobile-friendly</div>
+        </div>
+        <div class="ex-after">
+          <div class="ex-tag tag-a">✓ After</div>
+          <div class="rest-after-nav">
+            <div class="rest-after-logo"><em>Bella's Bistro</em></div>
+            <div class="rest-after-btn2">Reserve a Table</div>
+          </div>
+          <div class="rest-after-hero">
+            <div class="rest-after-title">Authentic Italian.<br>Denver's Best.</div>
+            <div class="rest-after-sub2">Est. 1998 · Open Tue–Sun · Private dining available</div>
+            <div class="rest-after-cta2">🍷 Reserve Your Table Tonight</div>
+          </div>
+          <div class="rest-after-tags">
+            <span class="rest-tag">🥇 Best Italian — Denver Mag 2024</span>
+            <span class="rest-tag">⭐ 4.9 on Yelp</span>
+            <span class="rest-tag">🥗 Gluten-free options</span>
+          </div>
+          <div class="rest-stars">★★★★★ <span>"Best pasta I've had outside Italy." — Google Review</span></div>
+        </div>
+      </div>
+
+      <!-- PLUMBER -->
+      <div class="example-card reveal d1">
+        <div class="ex-industry">
+          🔧 Plumber
+          <span class="ex-badge badge-up">+410% Online Leads</span>
+        </div>
+        <div class="ex-before">
+          <div class="ex-tag tag-b">✗ Before</div>
+          <div class="plumb-before-nav"><span>PEAK PLUMBING CO.</span></div>
+          <div class="plumb-before-hero">
+            <h4>Emergency Plumbing Services</h4>
+            <p>Seattle, WA · Available 24/7</p>
+          </div>
+          <div class="plumb-before-list">
+            <div class="plumb-before-item">Drain cleaning</div>
+            <div class="plumb-before-item">Water heater repair</div>
+            <div class="plumb-before-item">Pipe repair</div>
+          </div>
+          <div class="plumb-before-issue">⚠ No call-to-action · No reviews · Desktop only</div>
+        </div>
+        <div class="ex-after">
+          <div class="ex-tag tag-a">✓ After</div>
+          <div class="plumb-after-nav">
+            <div class="plumb-after-logo">Peak Plumbing</div>
+            <div class="plumb-after-phone">📞 (206) 555-0147</div>
+          </div>
+          <div class="plumb-after-hero">
+            <div class="plumb-after-badge">⚡ Emergency Response Available 24/7</div>
+            <div class="plumb-after-title">Seattle's Fastest Plumber. Guaranteed.</div>
+            <div class="plumb-after-cta3">📅 Book Now — Free Estimate</div>
+            <div class="plumb-after-guarantee">✓ Licensed · Insured · Same-day service</div>
+          </div>
+          <div class="plumb-cards">
+            <div class="plumb-card"><div class="plumb-card-val">60min</div><div class="plumb-card-lbl">Response time</div></div>
+            <div class="plumb-card"><div class="plumb-card-val">4.8★</div><div class="plumb-card-lbl">Google rating</div></div>
+            <div class="plumb-card"><div class="plumb-card-val">$0</div><div class="plumb-card-lbl">Estimate</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SALON -->
+      <div class="example-card reveal d2">
+        <div class="ex-industry">
+          💇 Hair Salon
+          <span class="ex-badge badge-up">+320% Bookings</span>
+        </div>
+        <div class="ex-before salon-before-bg">
+          <div class="ex-tag tag-b">✗ Before</div>
+          <div class="salon-before-nav">
+            <span>Glamour & Grace Salon</span>
+          </div>
+          <div class="salon-before-hero">
+            <h4>Welcome to Our Salon!</h4>
+            <p>Call us to book: (615) 555-0188</p>
+          </div>
+          <div class="salon-before-img"><span>[ Photo Gallery Under Construction ]</span></div>
+          <div class="salon-before-issue">⚠ Phone bookings only · No photos · Looks unprofessional</div>
+        </div>
+        <div class="ex-after">
+          <div class="ex-tag tag-a">✓ After</div>
+          <div class="salon-after-nav">
+            <div class="salon-after-logo">GRACE SALON</div>
+            <div class="salon-after-book">Book Online</div>
+          </div>
+          <div class="salon-after-hero">
+            <div class="salon-after-pre">Nashville's Premier Hair Studio</div>
+            <div class="salon-after-title">Look Your Best.<br>Feel Confident.</div>
+            <div class="salon-after-cta4">💇 Book Appointment Online</div>
+          </div>
+          <div class="salon-after-services">
+            <span class="salon-svc">Cuts & Styling</span>
+            <span class="salon-svc">Color & Highlights</span>
+            <span class="salon-svc">Keratin Treatments</span>
+            <span class="salon-svc">Bridal Packages</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-item reveal">
+    <div class="stat-num"><span>3.2</span>×</div>
+    <div class="stat-label">More leads within 30 days</div>
+  </div>
+  <div class="stat-item reveal d1">
+    <div class="stat-num">48<span>h</span></div>
+    <div class="stat-label">Average delivery time</div>
+  </div>
+  <div class="stat-item reveal d2">
+    <div class="stat-num"><span>94</span></div>
+    <div class="stat-label">Avg Lighthouse performance score</div>
+  </div>
+  <div class="stat-item reveal d3">
+    <div class="stat-num">47<span>+</span></div>
+    <div class="stat-label">Businesses revived this month</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="process">
+  <div class="section-inner">
+    <div class="eyebrow reveal">The Process</div>
+    <h2 class="section-title reveal">Three steps.<br>48 hours. Done.</h2>
+    <div class="how-grid reveal">
+      <div class="how-step">
+        <div class="step-num-label">Step 01</div>
+        <div class="step-icon">🔍</div>
+        <h3>We audit your site</h3>
+        <p>We run a full analysis of your current website — speed, mobile, security, and conversion gaps. You see exactly what's costing you customers before anything gets built.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num-label">Step 02</div>
+        <div class="step-icon">🎨</div>
+        <h3>We build your new site</h3>
+        <p>Our AI generates a fully custom, clean modern site for your specific business — with your services, real reviews, and a clear booking button front and center.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num-label">Step 03</div>
+        <div class="step-icon">🤖</div>
+        <h3>We install your AI assistant</h3>
+        <p>A smart chat widget sits on your site, answers questions, and books visitors directly into your Calendly calendar — 24/7, with zero staff required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section section-alt" id="services">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Services & Pricing</div>
+    <h2 class="section-title reveal">Two ways we grow<br>your business.</h2>
+    <div class="svc-grid">
+      <div class="svc-card svc-1 reveal">
+        <div class="svc-emoji">🚀</div>
+        <h3>Website Revival</h3>
+        <p>We replace your outdated site with a clean, high-converting landing page that makes your business look like the obvious choice in your market.</p>
+        <ul class="svc-list">
+          <li>Fully custom design — professional and trustworthy</li>
+          <li>Mobile-first, loads in under 2 seconds</li>
+          <li>Calendly booking embedded + UTM tracking</li>
+          <li>Copywriting tailored to your business</li>
+          <li>Google Analytics 4 + conversion tracking</li>
+          <li>Live in 48 hours</li>
+        </ul>
+        <div class="svc-price-row">
+          <span class="svc-price">$1,500</span>
+          <span class="svc-per">one-time · first month hosting included</span>
+        </div>
+      </div>
+      <div class="svc-card svc-2 reveal d1">
+        <div class="svc-emoji">💬</div>
+        <h3>AI Chatbot Embed</h3>
+        <p>A smart chat widget lives on your site and books appointments automatically. Works on your existing site — no rebuild needed.</p>
+        <ul class="svc-list">
+          <li>Custom-branded pop-up widget on your site</li>
+          <li>Qualifies visitors on their pain points</li>
+          <li>Books Calendly appointments while you sleep</li>
+          <li>Works on any existing website</li>
+          <li>5-minute copy-paste install</li>
+          <li>Performance-based — pay only per booking</li>
+        </ul>
+        <div class="svc-price-row">
+          <span class="svc-price">$200–$500</span>
+          <span class="svc-per">per qualified booked appointment</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="reviews">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Client Stories</div>
+    <h2 class="section-title reveal">Businesses that made<br>the switch.</h2>
+    <div class="testi-grid">
+      <div class="tcard reveal">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-quote">"I was embarrassed to send people to my old website. Now I share it everywhere. Went from 4 leads a month to 19 in the first 30 days."</p>
+        <div class="tcard-person">
+          <div class="tcard-avi">🔧</div>
+          <div>
+            <div class="tcard-name">Mike R.</div>
+            <div class="tcard-biz">Mike's Auto Repair · Austin, TX</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard reveal d1">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-quote">"The chatbot books people while I'm asleep. Woke up Monday with 3 new appointment requests. That literally never happened with my old site."</p>
+        <div class="tcard-person">
+          <div class="tcard-avi">🌿</div>
+          <div>
+            <div class="tcard-name">Sarah B.</div>
+            <div class="tcard-biz">Greenleaf Landscaping · Phoenix, AZ</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard reveal d2">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-quote">"Thought I needed $10K for a site this good. WebRevive delivered it in two days and it looks better than my competitors who paid five times more."</p>
+        <div class="tcard-person">
+          <div class="tcard-avi">✂️</div>
+          <div>
+            <div class="tcard-name">James T.</div>
+            <div class="tcard-biz">Cozy Cuts Barbershop · Nashville, TN</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <div class="eyebrow" style="color:rgba(255,255,255,.5)">Free · 20 Minutes · No Commitment</div>
+    <h2>Let's see what a better<br>website does for you.</h2>
+    <p>Book a free consult. We'll audit your current site, walk you through a live mockup of the new one, and answer every question — no pressure, no obligation.</p>
+    <a href="https://calendly.com/dave-webreviveai/30min?utm_source=website&utm_campaign=cta_bottom" target="_blank" class="btn-white">
+      Book My Free Consult
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <div class="cta-fine">No credit card · No sales pitch · Just your free website audit</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="nav-logo-icon" style="width:22px;height:22px;font-size:11px;background:var(--light)">⚡</div>
+    WebRevive AI
+  </div>
+  <div class="footer-copy">© 2025 WebRevive AI. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="mailto:info@webreviveai.com">info@webreviveai.com</a>
+  </div>
+</footer>
+
+<script>
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').style.boxShadow = window.scrollY > 10
+    ? '0 1px 0 rgba(0,0,0,.08)' : 'none';
+}, { passive: true });
+
+// Scroll reveals
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

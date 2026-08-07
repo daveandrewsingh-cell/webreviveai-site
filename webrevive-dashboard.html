@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebRevive AI — Command Center</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#080c10;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;}
+
+  /* NAV */
+  .nav{background:#0d1117;border-bottom:1px solid #1e2733;padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+  .nav-logo{display:flex;align-items:center;gap:12px;}
+  .nav-mark{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#0066ff);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;}
+  .nav-name{font-size:16px;font-weight:600;color:#fff;letter-spacing:-0.3px;}
+  .nav-name em{color:#00d4ff;font-style:normal;}
+  .nav-right{display:flex;align-items:center;gap:24px;}
+  .live-badge{display:flex;align-items:center;gap:7px;background:#0a1f0a;border:1px solid #1a3a1a;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#00e676;}
+  .pulse{width:7px;height:7px;border-radius:50%;background:#00e676;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,.5)}50%{box-shadow:0 0 0 5px rgba(0,230,118,0)}}
+  .nav-time{font-size:13px;color:#4a5568;font-variant-numeric:tabular-nums;}
+  .refresh-btn{background:none;border:1px solid #1e2733;border-radius:6px;padding:5px 12px;font-size:12px;color:#4a5568;cursor:pointer;}
+  .refresh-btn:hover{border-color:#00d4ff;color:#00d4ff;}
+
+  /* MAIN */
+  .main{max-width:1280px;margin:0 auto;padding:28px 32px;}
+
+  /* KPI */
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+  .kpi{background:#0d1117;border:1px solid #1e2733;border-radius:12px;padding:22px 24px;position:relative;overflow:hidden;}
+  .kpi-accent{position:absolute;top:0;left:0;right:0;height:3px;}
+  .kpi-label{font-size:11px;font-weight:600;color:#4a5568;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+  .kpi-val{font-size:40px;font-weight:700;color:#fff;line-height:1;margin-bottom:8px;font-variant-numeric:tabular-nums;}
+  .kpi-delta{font-size:12px;font-weight:500;}
+  .d-green{color:#00e676;} .d-amber{color:#f6ad55;} .d-muted{color:#4a5568;} .d-blue{color:#63b3ed;}
+
+  /* PANELS */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  .panel{background:#0d1117;border:1px solid #1e2733;border-radius:12px;padding:22px;}
+  .panel-full{background:#0d1117;border:1px solid #1e2733;border-radius:12px;padding:22px;margin-bottom:16px;}
+  .panel-title{font-size:11px;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:18px;}
+
+  /* TAGS */
+  .tag-row{display:flex;gap:8px;margin-bottom:12px;}
+  .tag-row input{flex:1;background:#080c10;border:1px solid #1e2733;border-radius:7px;padding:8px 12px;font-size:13px;color:#e2e8f0;outline:none;}
+  .tag-row input:focus{border-color:#00d4ff;box-shadow:0 0 0 2px rgba(0,212,255,.15);}
+  .tag-row input::placeholder{color:#2d3748;}
+  .tag-add{background:#0a1f2f;border:1px solid #00d4ff;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:600;color:#00d4ff;cursor:pointer;white-space:nowrap;}
+  .tag-add:hover{background:#00d4ff;color:#080c10;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .tag{display:flex;align-items:center;gap:5px;background:#0a1525;border:1px solid #1a3a55;border-radius:20px;padding:4px 8px 4px 12px;font-size:12px;font-weight:500;color:#63b3ed;}
+  .tag button{background:none;border:none;cursor:pointer;color:#2d4a6a;font-size:16px;line-height:1;padding:0;}
+  .tag button:hover{color:#fc8181;}
+  .section-gap{margin-top:20px;padding-top:18px;border-top:1px solid #1e2733;}
+
+  /* SLIDERS */
+  .slider-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .slider-wrap{display:flex;flex-direction:column;gap:10px;}
+  .slider-label{font-size:11px;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:1px;}
+  .slider-row{display:flex;align-items:center;gap:12px;}
+  .slider-row input[type=range]{flex:1;-webkit-appearance:none;height:5px;background:#1e2733;border-radius:3px;outline:none;}
+  .slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#00d4ff;cursor:pointer;border:2px solid #080c10;box-shadow:0 0 8px rgba(0,212,255,.4);}
+  .slider-val{font-size:20px;font-weight:700;color:#00d4ff;min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+  .btn-row{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;padding-top:18px;border-top:1px solid #1e2733;}
+  .btn-save{background:none;border:1px solid #1e2733;border-radius:7px;padding:10px 18px;font-size:13px;color:#4a5568;cursor:pointer;}
+  .btn-save:hover{border-color:#4a5568;color:#a0aec0;}
+  .btn-run{background:linear-gradient(135deg,#00d4ff,#0066ff);border:none;border-radius:7px;padding:10px 24px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;letter-spacing:0.3px;}
+  .btn-run:hover{opacity:.9;}
+  .btn-run:active{transform:scale(.98);}
+
+  /* TABLE */
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{text-align:left;color:#4a5568;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:8px 12px;border-bottom:1px solid #1e2733;}
+  td{padding:13px 12px;border-bottom:1px solid #111820;color:#a0aec0;}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:#0a1017;}
+  .biz-name{color:#e2e8f0;font-weight:600;}
+  .score-bar{display:inline-block;height:5px;border-radius:3px;vertical-align:middle;margin-right:7px;}
+  .score-num{font-variant-numeric:tabular-nums;font-weight:600;color:#e2e8f0;}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.3px;}
+  .badge-q{background:#0a2a0a;color:#00e676;border:1px solid rgba(0,230,118,.2);}
+  .badge-p{background:#2a1a00;color:#f6ad55;border:1px solid rgba(246,173,85,.2);}
+  .badge-n{background:#1a1a1a;color:#4a5568;border:1px solid #1e2733;}
+  .badge-s{background:#0a1a2a;color:#63b3ed;border:1px solid rgba(99,179,237,.2);}
+
+  /* LOG */
+  .log-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #111820;}
+  .log-item:last-child{border:none;}
+  .log-dot{width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0;}
+  .log-text{font-size:13px;color:#718096;flex:1;line-height:1.5;}
+  .log-text strong{color:#a0aec0;}
+  .log-time{font-size:11px;color:#2d3748;flex-shrink:0;font-variant-numeric:tabular-nums;}
+
+  /* STATUS */
+  .status-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #111820;}
+  .status-row:last-child{border:none;}
+  .status-label{font-size:13px;color:#718096;}
+  .status-val{font-size:13px;font-weight:600;}
+  .s-ok{color:#00e676;} .s-warn{color:#f6ad55;} .s-bad{color:#fc8181;}
+
+  /* LOADING */
+  .loading{text-align:center;padding:40px;color:#4a5568;font-size:14px;}
+
+  @media(max-width:900px){
+    .kpi-grid{grid-template-columns:1fr 1fr;}
+    .grid-2{grid-template-columns:1fr;}
+    .slider-grid{grid-template-columns:1fr;}
+    .main{padding:16px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-mark">WR</div>
+    <span class="nav-name">WebRevive <em>AI</em></span>
+  </div>
+  <div class="nav-right">
+    <div class="live-badge"><div class="pulse"></div>System active</div>
+    <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
+    <div class="nav-time" id="clock">--:-- --</div>
+  </div>
+</nav>
+
+<main class="main">
+
+  <div class="kpi-grid" id="kpi-grid">
+    <div class="kpi"><div class="loading">Loading…</div></div>
+    <div class="kpi"><div class="loading">Loading…</div></div>
+    <div class="kpi"><div class="loading">Loading…</div></div>
+    <div class="kpi"><div class="loading">Loading…</div></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-title">Target locations</div>
+      <div class="tag-row">
+        <input type="text" id="city-input" placeholder="Add city — e.g. Irvine, CA" />
+        <button class="tag-add" onclick="addTag('city')">+ Add</button>
+      </div>
+      <div class="tags" id="city-tags"></div>
+      <div class="section-gap">
+        <div class="panel-title">Business types</div>
+        <div class="tag-row">
+          <input type="text" id="biz-input" placeholder="Add type — e.g. dentist, hair salon" />
+          <button class="tag-add" onclick="addTag('biz')">+ Add</button>
+        </div>
+        <div class="tags" id="biz-tags"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Activity log</div>
+      <div id="activity-log"><div class="loading">Loading…</div></div>
+    </div>
+  </div>
+
+  <div class="panel-full">
+    <div class="panel-title">Daily limits & thresholds</div>
+    <div class="slider-grid">
+      <div class="slider-wrap">
+        <div class="slider-label">Max scan per run</div>
+        <div class="slider-row">
+          <input type="range" min="10" max="200" step="10" value="50" id="sl-scan" oninput="document.getElementById('sv1').textContent=this.value" />
+          <span class="slider-val" id="sv1">50</span>
+        </div>
+      </div>
+      <div class="slider-wrap">
+        <div class="slider-label">Max emails per run</div>
+        <div class="slider-row">
+          <input type="range" min="1" max="50" step="1" value="10" id="sl-email" oninput="document.getElementById('sv2').textContent=this.value" />
+          <span class="slider-val" id="sv2">10</span>
+        </div>
+      </div>
+      <div class="slider-wrap">
+        <div class="slider-label">Min score threshold</div>
+        <div class="slider-row">
+          <input type="range" min="10" max="80" step="5" value="30" id="sl-score" oninput="document.getElementById('sv3').textContent=this.value" />
+          <span class="slider-val" id="sv3">30</span>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-save" onclick="saveConfig()">Save settings</button>
+      <button class="btn-run" onclick="runNow()">▶ Run now</button>
+    </div>
+  </div>
+
+  <div class="panel-full">
+    <div class="panel-title">Recent prospects</div>
+    <div id="prospects-table"><div class="loading">Loading…</div></div>
+  </div>
+
+  <div class="panel-full">
+    <div class="panel-title">System status</div>
+    <div id="system-status"><div class="loading">Loading…</div></div>
+  </div>
+
+</main>
+
+<script>
+const DATA_URL = 'https://raw.githubusercontent.com/daveandrewsingh-cell/webrevive-automation/main/dashboard-data.json';
+let data = null;
+
+async function loadData() {
+  try {
+    const res = await fetch(DATA_URL + '?t=' + Date.now());
+    data = await res.json();
+    renderAll(data);
+  } catch(e) {
+    console.warn('Using sample data:', e.message);
+    data = getSampleData();
+    renderAll(data);
+  }
+}
+
+function renderAll(d) {
+  renderKPIs(d.stats);
+  renderTags(d.config);
+  renderSliders(d.config);
+  renderLog(d.activityLog);
+  renderProspects(d.recentProspects);
+  renderStatus(d.systemStatus, d.lastUpdated);
+}
+
+function renderKPIs(s) {
+  document.getElementById('kpi-grid').innerHTML = `
+    <div class="kpi"><div class="kpi-accent" style="background:#00e676;"></div><div class="kpi-label">Businesses scanned</div><div class="kpi-val">${s.totalScanned}</div><div class="kpi-delta d-green">▲ today's run active</div></div>
+    <div class="kpi"><div class="kpi-accent" style="background:#00d4ff;"></div><div class="kpi-label">Qualified prospects</div><div class="kpi-val">${s.totalQualified}</div><div class="kpi-delta d-muted">${s.qualifyRate}% qualify rate</div></div>
+    <div class="kpi"><div class="kpi-accent" style="background:#f6ad55;"></div><div class="kpi-label">Emails sent</div><div class="kpi-val">${s.totalSent}</div><div class="kpi-delta ${s.totalSent>0?'d-green':'d-amber'}">${s.totalSent>0?'▲ sending active':'⏳ Domain pending'}</div></div>
+    <div class="kpi"><div class="kpi-accent" style="background:#fc8181;"></div><div class="kpi-label">Calls booked</div><div class="kpi-val">${s.totalBooked}</div><div class="kpi-delta d-muted">via Calendly</div></div>
+  `;
+}
+
+function renderTags(c) {
+  const cityEl = document.getElementById('city-tags');
+  const bizEl = document.getElementById('biz-tags');
+  cityEl.innerHTML = c.cities.map(city =>
+    `<span class="tag">${city}<button onclick="this.parentElement.remove()" aria-label="Remove ${city}">×</button></span>`
+  ).join('');
+  bizEl.innerHTML = c.bizTypes.map(biz =>
+    `<span class="tag">${biz}<button onclick="this.parentElement.remove()" aria-label="Remove ${biz}">×</button></span>`
+  ).join('');
+}
+
+function renderSliders(c) {
+  document.getElementById('sl-scan').value = c.maxScan;
+  document.getElementById('sv1').textContent = c.maxScan;
+  document.getElementById('sl-email').value = c.maxEmails;
+  document.getElementById('sv2').textContent = c.maxEmails;
+  document.getElementById('sl-score').value = c.minScore;
+  document.getElementById('sv3').textContent = c.minScore;
+}
+
+function renderLog(log) {
+  const colors = { green:'#00e676', amber:'#f6ad55', blue:'#63b3ed', red:'#fc8181' };
+  document.getElementById('activity-log').innerHTML = log.map(l =>
+    `<div class="log-item"><div class="log-dot" style="background:${colors[l.type]||'#4a5568'};"></div><div class="log-text">${l.text}</div><div class="log-time">${l.time}</div></div>`
+  ).join('');
+}
+
+function renderProspects(prospects) {
+  const scoreColor = s => s >= 50 ? '#00e676' : s >= 30 ? '#f6ad55' : '#fc8181';
+  const scoreWidth = s => Math.round(s * 0.8);
+  const badgeMap = { qualified:'badge-q', pending:'badge-p', no_email:'badge-n', sent:'badge-s' };
+  const badgeLabel = { qualified:'Qualified', pending:'Pending send', no_email:'No email', sent:'Sent' };
+  document.getElementById('prospects-table').innerHTML = `
+    <table>
+      <thead><tr><th>Business</th><th>City</th><th>Category</th><th>Contact email</th><th>Score</th><th>Status</th></tr></thead>
+      <tbody>
+        ${prospects.map(p => `
+          <tr>
+            <td class="biz-name">${p.name}</td>
+            <td>${p.city}</td>
+            <td>${p.category}</td>
+            <td style="color:#2d3748;font-size:12px;">${p.email || '— not found'}</td>
+            <td><span class="score-bar" style="width:${scoreWidth(p.score)}px;background:${scoreColor(p.score)};"></span><span class="score-num">${p.score}</span></td>
+            <td><span class="badge ${badgeMap[p.status]||'badge-n'}">${badgeLabel[p.status]||p.status}</span></td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+function renderStatus(s, lastUpdated) {
+  const ts = lastUpdated ? new Date(lastUpdated).toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
+  const row = (label, val, cls) => `<div class="status-row"><span class="status-label">${label}</span><span class="status-val ${cls}">${val}</span></div>`;
+  document.getElementById('system-status').innerHTML =
+    row('Last data update', ts, 's-ok') +
+    row('Resend domain (webreviveai.com)', s.resendDomain==='verified'?'✓ Verified':'⏳ Pending verification', s.resendDomain==='verified'?'s-ok':'s-warn') +
+    row('DKIM record', s.dkim==='verified'?'✓ Verified':'✗ Failed', s.dkim==='verified'?'s-ok':'s-bad') +
+    row('SPF record', s.spf==='verified'?'✓ Verified':'✗ Failed', s.spf==='verified'?'s-ok':'s-bad') +
+    row('MX record (send subdomain)', s.mx==='verified'?'✓ Verified':'⏳ Propagating', s.mx==='verified'?'s-ok':'s-warn') +
+    row('Google Places API', s.googlePlaces==='active'?'✓ Active':'✗ Error', s.googlePlaces==='active'?'s-ok':'s-bad') +
+    row('Anthropic (Claude) API', s.anthropic==='active'?`✓ Active — $${s.anthropicCredits.toFixed(2)} remaining`:'✗ Error', s.anthropic==='active'?'s-ok':'s-bad') +
+    row('Suppression list', s.suppressionList==='active'?`✓ Connected — ${s.suppressedCount} suppressed`:'✗ Error', s.suppressionList==='active'?'s-ok':'s-bad') +
+    row('Railway cron schedule', '✓ ' + s.cronSchedule, 's-ok');
+}
+
+function addTag(type) {
+  const input = document.getElementById(type==='city'?'city-input':'biz-input');
+  const container = document.getElementById(type==='city'?'city-tags':'biz-tags');
+  const val = input.value.trim();
+  if(!val) return;
+  const tag = document.createElement('span');
+  tag.className = 'tag';
+  tag.innerHTML = val + '<button onclick="this.parentElement.remove()" aria-label="Remove">×</button>';
+  container.appendChild(tag);
+  input.value = '';
+  input.focus();
+}
+
+function saveConfig() {
+  const cities = [...document.getElementById('city-tags').querySelectorAll('.tag')].map(t=>t.childNodes[0].textContent.trim());
+  const bizTypes = [...document.getElementById('biz-tags').querySelectorAll('.tag')].map(t=>t.childNodes[0].textContent.trim());
+  const config = {
+    cities, bizTypes,
+    maxScan: +document.getElementById('sl-scan').value,
+    maxEmails: +document.getElementById('sl-email').value,
+    minScore: +document.getElementById('sl-score').value
+  };
+  const blob = new Blob([JSON.stringify(config, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'webrevive-config.json'; a.click();
+  alert('Config downloaded! Upload webrevive-config.json to your GitHub repo to apply changes.');
+}
+
+function runNow() {
+  alert('To trigger a manual run: go to Railway → webrevive-automation → Cron Runs → Run now.');
+}
+
+function getSampleData() {
+  return {
+    lastUpdated: new Date().toISOString(),
+    stats: { totalScanned: 312, totalQualified: 28, totalSent: 0, totalBooked: 0, qualifyRate: 9 },
+    systemStatus: { resendDomain:'pending', dkim:'verified', spf:'verified', mx:'pending', googlePlaces:'active', anthropic:'active', anthropicCredits:19.84, suppressionList:'active', suppressedCount:0, cronSchedule:'Daily 8:00 AM Pacific' },
+    recentProspects: [
+      { name:'Good Fellaz Barbershop', city:'Garden Grove', category:'Barbershop', email:'goodfellazbs@gmail.com', score:55, status:'qualified' },
+      { name:'The Cellar Restaurant', city:'Fullerton', category:'Restaurant', email:'management@cellardining.com', score:35, status:'qualified' },
+      { name:'Mamma Mia', city:'Fullerton', category:'Restaurant', email:'riverside@mammamiarnb.com', score:35, status:'qualified' },
+      { name:'PERLE NAILS', city:'Orange', category:'Nail salon', email:'Perlenails@icloud.com', score:30, status:'pending' },
+      { name:'ExperTec Automotive', city:'Anaheim', category:'Auto repair', email:null, score:65, status:'no_email' }
+    ],
+    activityLog: [
+      { type:'green', text:'Found <strong>4 qualified prospects</strong> from 44 scanned', time:'2m ago' },
+      { type:'amber', text:'Resend domain <strong>pending verification</strong> — MX propagating', time:'14m ago' },
+      { type:'blue', text:'Suppression list loaded — <strong>0 suppressed emails</strong>', time:'14m ago' },
+      { type:'green', text:'Script deployed — <strong>v4 active on Railway</strong>', time:'1h ago' },
+      { type:'green', text:'Found <strong>3 qualified prospects</strong> from 42 scanned', time:'6h ago' },
+      { type:'green', text:'DKIM record <strong>verified</strong> on Resend', time:'8h ago' }
+    ],
+    config: { maxScan:50, maxEmails:10, minScore:30, cities:['Anaheim, CA','Santa Ana, CA','Garden Grove, CA','Orange, CA','Fullerton, CA'], bizTypes:['auto repair shop','plumber','barbershop','nail salon','restaurant'] }
+  };
+}
+
+document.getElementById('city-input').addEventListener('keydown', e=>{ if(e.key==='Enter') addTag('city'); });
+document.getElementById('biz-input').addEventListener('keydown', e=>{ if(e.key==='Enter') addTag('biz'); });
+function updateClock() { document.getElementById('clock').textContent = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true}); }
+updateClock(); setInterval(updateClock, 1000);
+loadData();
+</script>
+</body>
+</html>

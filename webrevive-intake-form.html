@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebRevive AI — New Client Intake</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#f4f5f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a1a1a;min-height:100vh;}
+  .header{background:#fff;border-bottom:1px solid #e8e8e8;padding:20px 32px;text-align:center;}
+  .header-mark{width:40px;height:40px;background:#1a6ef5;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;margin-bottom:10px;}
+  .header h1{font-size:22px;font-weight:700;color:#111;margin-bottom:4px;}
+  .header p{font-size:14px;color:#888;}
+  .progress-wrap{background:#fff;border-bottom:1px solid #e8e8e8;padding:12px 32px;}
+  .progress-bar{max-width:600px;margin:0 auto;display:flex;align-items:center;gap:0;}
+  .step{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;}
+  .step-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+  .step.done .step-num{background:#22c55e;color:#fff;}
+  .step.active .step-num{background:#1a6ef5;color:#fff;}
+  .step.todo .step-num{background:#e8e8e8;color:#999;}
+  .step.done .step-label{color:#22c55e;}
+  .step.active .step-label{color:#1a6ef5;font-weight:600;}
+  .step.todo .step-label{color:#bbb;}
+  .step-line{flex:1;height:2px;background:#e8e8e8;margin:0 6px;}
+  .step-line.done{background:#22c55e;}
+  .main{max-width:620px;margin:0 auto;padding:32px 16px;}
+  .card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:28px;margin-bottom:16px;}
+  .card-title{font-size:16px;font-weight:700;color:#111;margin-bottom:4px;}
+  .card-sub{font-size:13px;color:#888;margin-bottom:20px;}
+  .field{margin-bottom:18px;}
+  label{display:block;font-size:13px;font-weight:600;color:#333;margin-bottom:6px;}
+  .req{color:#ef4444;margin-left:2px;}
+  input[type=text],input[type=email],input[type=tel],input[type=url],select,textarea{width:100%;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:10px 14px;font-size:14px;color:#111;outline:none;font-family:inherit;}
+  input:focus,select:focus,textarea:focus{border-color:#1a6ef5;background:#fff;box-shadow:0 0 0 3px rgba(26,110,245,0.08);}
+  textarea{resize:vertical;min-height:80px;}
+  .hint{font-size:12px;color:#aaa;margin-top:4px;}
+  .radio-group{display:flex;flex-wrap:wrap;gap:8px;}
+  .radio-opt{display:flex;align-items:center;gap:6px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;color:#444;transition:all .15s;}
+  .radio-opt:hover{border-color:#1a6ef5;background:#f0f4ff;}
+  .radio-opt input{accent-color:#1a6ef5;}
+  .check-group{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  .check-opt{display:flex;align-items:center;gap:6px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:13px;color:#444;}
+  .check-opt:hover{border-color:#1a6ef5;background:#f0f4ff;}
+  .check-opt input{accent-color:#1a6ef5;}
+  .btn-row{display:flex;gap:10px;justify-content:space-between;margin-top:8px;}
+  .btn-back{background:#f4f5f7;border:1px solid #e0e0e0;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:500;color:#666;cursor:pointer;}
+  .btn-next{background:#1a6ef5;border:none;border-radius:8px;padding:12px 28px;font-size:14px;font-weight:600;color:#fff;cursor:pointer;flex:1;}
+  .btn-next:hover{background:#1458cc;}
+  .btn-submit{background:#22c55e;border:none;border-radius:8px;padding:12px 28px;font-size:14px;font-weight:600;color:#fff;cursor:pointer;flex:1;}
+  .section-label{font-size:11px;font-weight:700;color:#1a6ef5;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #f0f0f0;}
+  .success{text-align:center;padding:40px 20px;display:none;}
+  .success-icon{font-size:48px;margin-bottom:16px;}
+  .success h2{font-size:22px;font-weight:700;color:#111;margin-bottom:8px;}
+  .success p{font-size:14px;color:#666;line-height:1.6;margin-bottom:20px;}
+  .output-preview{background:#f0f4ff;border:1px solid #c7d8fd;border-radius:8px;padding:16px;margin-top:16px;text-align:left;}
+  .output-preview h3{font-size:13px;font-weight:700;color:#1a6ef5;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;}
+  .output-item{font-size:13px;color:#444;padding:4px 0;border-bottom:1px solid #e8f0ff;}
+  .generating{display:none;text-align:center;padding:20px;}
+  .spinner{width:32px;height:32px;border:3px solid #e8e8e8;border-top-color:#1a6ef5;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 12px;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-mark">WR</div>
+  <h1>Tell us about your business</h1>
+  <p>We'll use your answers to build your custom website. Takes about 10 minutes.</p>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar">
+    <div class="step active" id="step-ind-1"><div class="step-num">1</div><span class="step-label">Business</span></div>
+    <div class="step-line" id="line-1"></div>
+    <div class="step todo" id="step-ind-2"><div class="step-num">2</div><span class="step-label">Services</span></div>
+    <div class="step-line" id="line-2"></div>
+    <div class="step todo" id="step-ind-3"><div class="step-num">3</div><span class="step-label">Story</span></div>
+    <div class="step-line" id="line-3"></div>
+    <div class="step todo" id="step-ind-4"><div class="step-num">4</div><span class="step-label">Design</span></div>
+    <div class="step-line" id="line-4"></div>
+    <div class="step todo" id="step-ind-5"><div class="step-num">5</div><span class="step-label">Generate</span></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- STEP 1: BUSINESS BASICS -->
+  <div id="page-1">
+    <div class="card">
+      <div class="card-title">Business basics</div>
+      <div class="card-sub">The foundation of your new website</div>
+
+      <div class="field">
+        <label>Business name <span class="req">*</span></label>
+        <input type="text" id="biz-name" placeholder="e.g. Tony's Auto Repair" />
+      </div>
+      <div class="field">
+        <label>Business type <span class="req">*</span></label>
+        <select id="biz-type">
+          <option value="">Select your category</option>
+          <option>Auto repair shop</option>
+          <option>Barbershop</option>
+          <option>Nail salon</option>
+          <option>Restaurant</option>
+          <option>Plumber</option>
+          <option>Hair salon</option>
+          <option>Dentist</option>
+          <option>Chiropractor</option>
+          <option>Pet grooming</option>
+          <option>HVAC / heating & cooling</option>
+          <option>Electrician</option>
+          <option>Landscaping</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Full address <span class="req">*</span></label>
+        <input type="text" id="biz-address" placeholder="123 Main St, Anaheim, CA 92801" />
+      </div>
+      <div class="field">
+        <label>Phone number <span class="req">*</span></label>
+        <input type="tel" id="biz-phone" placeholder="(714) 555-0123" />
+      </div>
+      <div class="field">
+        <label>Email address (for your website contact form)</label>
+        <input type="email" id="biz-email" placeholder="you@yourbusiness.com" />
+      </div>
+      <div class="field">
+        <label>Current website URL (if you have one)</label>
+        <input type="url" id="biz-website" placeholder="https://yoursite.com" />
+      </div>
+      <div class="field">
+        <label>Business hours <span class="req">*</span></label>
+        <textarea id="biz-hours" placeholder="e.g. Mon–Fri 8am–6pm, Sat 9am–4pm, Closed Sunday"></textarea>
+      </div>
+      <div class="field">
+        <label>How long have you been in business?</label>
+        <div class="radio-group">
+          <label class="radio-opt"><input type="radio" name="years" value="Less than 1 year"> Less than 1 year</label>
+          <label class="radio-opt"><input type="radio" name="years" value="1–3 years"> 1–3 years</label>
+          <label class="radio-opt"><input type="radio" name="years" value="3–10 years"> 3–10 years</label>
+          <label class="radio-opt"><input type="radio" name="years" value="10–25 years"> 10–25 years</label>
+          <label class="radio-opt"><input type="radio" name="years" value="25+ years"> 25+ years</label>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-next" onclick="goTo(2)">Next — Services →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: SERVICES -->
+  <div id="page-2" style="display:none;">
+    <div class="card">
+      <div class="card-title">Your services</div>
+      <div class="card-sub">What do you offer? We'll build a services page around this.</div>
+
+      <div class="field">
+        <label>List your main services or menu items <span class="req">*</span></label>
+        <textarea id="services-list" style="min-height:120px;" placeholder="List each service on a new line. Include prices if you want them shown.&#10;&#10;e.g.&#10;Oil Change — $49&#10;Brake Inspection — Free&#10;Tire Rotation — $25&#10;Full Tune-Up — $189"></textarea>
+        <div class="hint">Don't worry about formatting — just list them out. We'll make them look great.</div>
+      </div>
+
+      <div class="field">
+        <label>What's your most popular service or best seller?</label>
+        <input type="text" id="best-seller" placeholder="e.g. Oil change, haircut, deep tissue massage" />
+      </div>
+
+      <div class="field">
+        <label>Do you want prices shown on the website?</label>
+        <div class="radio-group">
+          <label class="radio-opt"><input type="radio" name="show-prices" value="Yes — show prices"> Yes — show prices</label>
+          <label class="radio-opt"><input type="radio" name="show-prices" value="No — call for pricing"> No — call for pricing</label>
+          <label class="radio-opt"><input type="radio" name="show-prices" value="Some items only"> Some items only</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>How do customers currently book or contact you?</label>
+        <div class="check-group">
+          <label class="check-opt"><input type="checkbox" value="Phone call"> Phone call</label>
+          <label class="check-opt"><input type="checkbox" value="Walk in"> Walk in</label>
+          <label class="check-opt"><input type="checkbox" value="Online booking"> Online booking</label>
+          <label class="check-opt"><input type="checkbox" value="Text message"> Text message</label>
+          <label class="check-opt"><input type="checkbox" value="Email"> Email</label>
+          <label class="check-opt"><input type="checkbox" value="Social media"> Social media</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>What's the main action you want visitors to take on your site?</label>
+        <div class="radio-group">
+          <label class="radio-opt"><input type="radio" name="main-cta" value="Call us"> Call us</label>
+          <label class="radio-opt"><input type="radio" name="main-cta" value="Book online"> Book online</label>
+          <label class="radio-opt"><input type="radio" name="main-cta" value="Get a quote"> Get a quote</label>
+          <label class="radio-opt"><input type="radio" name="main-cta" value="Visit us"> Visit us</label>
+          <label class="radio-opt"><input type="radio" name="main-cta" value="Order online"> Order online</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Do you serve a specific area? (for service businesses like plumbers)</label>
+        <input type="text" id="service-area" placeholder="e.g. Orange County, Anaheim, Fullerton, Placentia" />
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-back" onclick="goTo(1)">← Back</button>
+      <button class="btn-next" onclick="goTo(3)">Next — Your Story →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: STORY -->
+  <div id="page-3" style="display:none;">
+    <div class="card">
+      <div class="card-title">Your story</div>
+      <div class="card-sub">This becomes your About page — the human side of your business</div>
+
+      <div class="field">
+        <label>Who started this business and why? <span class="req">*</span></label>
+        <textarea id="story" style="min-height:100px;" placeholder="e.g. I started Tony's Auto Repair in 1998 after working at dealerships for 10 years. I wanted to offer honest, affordable service to families in Anaheim without the dealership markup..."></textarea>
+        <div class="hint">A few sentences is fine. The more real the better — people connect with stories.</div>
+      </div>
+
+      <div class="field">
+        <label>What makes you different from competitors?</label>
+        <textarea id="differentiator" placeholder="e.g. We're a family-owned shop. We give honest estimates with no surprise fees. We've served the same families for over 20 years."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Any awards, certifications, or notable achievements?</label>
+        <input type="text" id="awards" placeholder="e.g. ASE Certified, 5-star Google rating, Best of Yelp 2023" />
+      </div>
+
+      <div class="field">
+        <label>Do you have a tagline or motto? (optional)</label>
+        <input type="text" id="tagline" placeholder="e.g. Honest work, fair prices. Family since 1998." />
+      </div>
+
+      <div class="field">
+        <label>Paste 1–3 of your best Google reviews (optional but powerful)</label>
+        <textarea id="reviews" style="min-height:100px;" placeholder="Paste real reviews here. We'll feature them on the site to build trust with new visitors."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Owner / contact person name</label>
+        <input type="text" id="owner-name" placeholder="e.g. Tony Ramirez" />
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-back" onclick="goTo(2)">← Back</button>
+      <button class="btn-next" onclick="goTo(4)">Next — Design Preferences →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: DESIGN -->
+  <div id="page-4" style="display:none;">
+    <div class="card">
+      <div class="card-title">Design preferences</div>
+      <div class="card-sub">Help us get the look and feel right</div>
+
+      <div class="field">
+        <label>What vibe do you want your website to give off?</label>
+        <div class="check-group">
+          <label class="check-opt"><input type="checkbox" id="vibe-professional"> Professional & trustworthy</label>
+          <label class="check-opt"><input type="checkbox" id="vibe-friendly"> Friendly & approachable</label>
+          <label class="check-opt"><input type="checkbox" id="vibe-bold"> Bold & modern</label>
+          <label class="check-opt"><input type="checkbox" id="vibe-clean"> Clean & minimal</label>
+          <label class="check-opt"><input type="checkbox" id="vibe-warm"> Warm & family-oriented</label>
+          <label class="check-opt"><input type="checkbox" id="vibe-premium"> Upscale & premium</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Do you have brand colors? If yes, list them.</label>
+        <input type="text" id="colors" placeholder="e.g. Navy blue and gold, or #1a3a5c and #c9a96e — or just say 'no preference'" />
+      </div>
+
+      <div class="field">
+        <label>Do you have a logo?</label>
+        <div class="radio-group">
+          <label class="radio-opt"><input type="radio" name="has-logo" value="Yes — I'll send it"> Yes — I'll send it</label>
+          <label class="radio-opt"><input type="radio" name="has-logo" value="No — please create one"> No — please create one</label>
+          <label class="radio-opt"><input type="radio" name="has-logo" value="Not sure"> Not sure</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Do you have photos of your business / team / work?</label>
+        <div class="radio-group">
+          <label class="radio-opt"><input type="radio" name="has-photos" value="Yes — I'll send them"> Yes — I'll send them</label>
+          <label class="radio-opt"><input type="radio" name="has-photos" value="No — use stock photos"> No — use stock photos</label>
+          <label class="radio-opt"><input type="radio" name="has-photos" value="Some — mix of both"> Some — mix of both</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Any websites you like the look of? (from any industry)</label>
+        <input type="text" id="inspo" placeholder="e.g. apple.com, chipotle.com — anything you find clean and easy to use" />
+      </div>
+
+      <div class="field">
+        <label>Anything specific you want on the site that we haven't asked about?</label>
+        <textarea id="extra" placeholder="e.g. I want a Spanish language option, I want a video on the homepage, I want a gift card purchase section..."></textarea>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-back" onclick="goTo(3)">← Back</button>
+      <button class="btn-next" onclick="goTo(5)">Next — Generate My Site →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: GENERATE -->
+  <div id="page-5" style="display:none;">
+    <div class="card">
+      <div class="card-title">✅ You're all set</div>
+      <div class="card-sub">Here's a summary of what we'll build for you</div>
+      <div id="summary-content"></div>
+      <div style="margin-top:20px;padding:14px 16px;background:#edfaf3;border:1px solid #b6eecf;border-radius:8px;">
+        <p style="margin:0;font-size:13px;color:#1a7a4a;font-weight:500;">🚀 Once you submit, our AI will generate your complete website copy and we'll begin building within 24 hours.</p>
+      </div>
+    </div>
+
+    <div class="generating" id="generating">
+      <div class="spinner"></div>
+      <p style="font-size:14px;color:#666;">Generating your personalized website content with AI...</p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="goTo(4)">← Back</button>
+      <button class="btn-submit" onclick="submitForm()">🚀 Submit & Generate My Website</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success" id="success">
+    <div class="success-icon">🎉</div>
+    <h2>We've got everything we need!</h2>
+    <p>Your intake form has been submitted. Our AI is now generating your personalized website copy. Dave will be in touch within 24 hours with a preview link.</p>
+    <div class="output-preview" id="ai-output">
+      <h3>AI-generated website copy preview</h3>
+      <div id="ai-content">Generating...</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const ANTHROPIC_API_KEY = null; // Set this when deploying
+
+let currentPage = 1;
+
+function goTo(page) {
+  document.getElementById('page-' + currentPage).style.display = 'none';
+  currentPage = page;
+  document.getElementById('page-' + page).style.display = 'block';
+  updateProgress(page);
+  if (page === 5) buildSummary();
+  window.scrollTo(0, 0);
+}
+
+function updateProgress(page) {
+  for (let i = 1; i <= 5; i++) {
+    const ind = document.getElementById('step-ind-' + i);
+    if (i < page) {
+      ind.className = 'step done';
+    } else if (i === page) {
+      ind.className = 'step active';
+    } else {
+      ind.className = 'step todo';
+    }
+    if (i < 5) {
+      const line = document.getElementById('line-' + i);
+      line.className = i < page ? 'step-line done' : 'step-line';
+    }
+  }
+}
+
+function buildSummary() {
+  const data = collectData();
+  document.getElementById('summary-content').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;">
+      <div style="background:#f8f9fa;border-radius:8px;padding:14px;">
+        <p style="font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Business</p>
+        <p style="font-size:14px;font-weight:600;color:#111;margin-bottom:2px;">${data.bizName || '—'}</p>
+        <p style="font-size:13px;color:#666;">${data.bizType || '—'}</p>
+        <p style="font-size:13px;color:#666;">${data.bizPhone || '—'}</p>
+      </div>
+      <div style="background:#f8f9fa;border-radius:8px;padding:14px;">
+        <p style="font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">What we'll build</p>
+        <p style="font-size:13px;color:#444;line-height:1.6;">5-page website<br>Services page with ${data.serviceCount} services<br>About page with your story<br>Online booking / contact<br>Mobile-optimized & HTTPS</p>
+      </div>
+    </div>
+  `;
+}
+
+function collectData() {
+  const vibes = [];
+  if(document.getElementById('vibe-professional').checked) vibes.push('Professional & trustworthy');
+  if(document.getElementById('vibe-friendly').checked) vibes.push('Friendly & approachable');
+  if(document.getElementById('vibe-bold').checked) vibes.push('Bold & modern');
+  if(document.getElementById('vibe-clean').checked) vibes.push('Clean & minimal');
+  if(document.getElementById('vibe-warm').checked) vibes.push('Warm & family-oriented');
+  if(document.getElementById('vibe-premium').checked) vibes.push('Upscale & premium');
+
+  const services = document.getElementById('services-list').value;
+  const serviceCount = services ? services.split('\n').filter(l => l.trim()).length : 0;
+
+  return {
+    bizName: document.getElementById('biz-name').value,
+    bizType: document.getElementById('biz-type').value,
+    bizAddress: document.getElementById('biz-address').value,
+    bizPhone: document.getElementById('biz-phone').value,
+    bizEmail: document.getElementById('biz-email').value,
+    bizHours: document.getElementById('biz-hours').value,
+    yearsInBusiness: document.querySelector('input[name="years"]:checked')?.value || '',
+    servicesList: services,
+    serviceCount,
+    bestSeller: document.getElementById('best-seller').value,
+    showPrices: document.querySelector('input[name="show-prices"]:checked')?.value || '',
+    mainCTA: document.querySelector('input[name="main-cta"]:checked')?.value || '',
+    serviceArea: document.getElementById('service-area').value,
+    story: document.getElementById('story').value,
+    differentiator: document.getElementById('differentiator').value,
+    awards: document.getElementById('awards').value,
+    tagline: document.getElementById('tagline').value,
+    reviews: document.getElementById('reviews').value,
+    ownerName: document.getElementById('owner-name').value,
+    vibes: vibes.join(', '),
+    colors: document.getElementById('colors').value,
+    hasLogo: document.querySelector('input[name="has-logo"]:checked')?.value || '',
+    hasPhotos: document.querySelector('input[name="has-photos"]:checked')?.value || '',
+    inspo: document.getElementById('inspo').value,
+    extra: document.getElementById('extra').value,
+  };
+}
+
+async function submitForm() {
+  const data = collectData();
+  if (!data.bizName || !data.bizType || !data.bizPhone) {
+    alert('Please fill in at least your business name, type, and phone number.');
+    goTo(1);
+    return;
+  }
+
+  document.getElementById('page-5').style.display = 'none';
+  document.getElementById('generating').style.display = 'block';
+
+  try {
+    const prompt = `You are a professional web copywriter. Based on the following business information, generate complete website copy for a 5-page small business website. Make it warm, professional, and conversion-focused. Use their actual details throughout.
+
+BUSINESS INFORMATION:
+- Business name: ${data.bizName}
+- Type: ${data.bizType}
+- Address: ${data.bizAddress}
+- Phone: ${data.bizPhone}
+- Hours: ${data.bizHours}
+- Years in business: ${data.yearsInBusiness}
+- Services: ${data.servicesList}
+- Best seller: ${data.bestSeller}
+- Show prices: ${data.showPrices}
+- Main CTA: ${data.mainCTA}
+- Service area: ${data.serviceArea}
+- Business story: ${data.story}
+- What makes them different: ${data.differentiator}
+- Awards/certifications: ${data.awards}
+- Tagline: ${data.tagline}
+- Customer reviews: ${data.reviews}
+- Owner name: ${data.ownerName}
+- Brand vibe: ${data.vibes}
+- Brand colors: ${data.colors}
+- Extra requests: ${data.extra}
+
+Generate copy for these 5 sections. Be specific, use their real details, and make it sound human:
+
+1. HOME PAGE HERO: Headline (8 words max), subheadline (20 words max), and 3 trust badges
+2. SERVICES SECTION: A brief intro paragraph + formatted service list
+3. ABOUT PAGE: 2–3 paragraphs telling their story  
+4. CONTACT PAGE: Intro text + call-to-action copy
+5. SEO META DESCRIPTION: 155-character description for Google search
+
+Format each section clearly with the section name as a header.`;
+
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+
+    const result = await response.json();
+    const aiText = result.content?.[0]?.text || "Content generated — Dave will send your preview shortly.";
+
+    document.getElementById('generating').style.display = 'none';
+    document.getElementById('success').style.display = 'block';
+    document.getElementById('ai-content').innerHTML = aiText.replace(/\n/g, '<br>').replace(/##? (.+)/g, '<strong style="color:#111;display:block;margin-top:12px;margin-bottom:4px;">$1</strong>');
+
+  } catch(e) {
+    document.getElementById('generating').style.display = 'none';
+    document.getElementById('success').style.display = 'block';
+    document.getElementById('ai-content').innerHTML = '<p style="color:#666;">Your information has been received. Dave will send your personalized website preview within 24 hours.</p>';
+  }
+}
+
+// ── WEBSITE SCRAPING & PRE-POPULATION ────────────────────────────────────────
+
+// Get website URL from query string ?site=example.com
+function getSiteParam() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('site') || params.get('url') || '';
+}
+
+// Show a banner while scraping
+function showScrapingBanner() {
+  const banner = document.createElement('div');
+  banner.id = 'scrape-banner';
+  banner.style.cssText = 'background:#f0f4ff;border:1px solid #c7d8fd;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:13px;color:#1a6ef5;';
+  banner.innerHTML = `
+    <div style="width:16px;height:16px;border:2px solid #c7d8fd;border-top-color:#1a6ef5;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;"></div>
+    <span>We're scanning your existing website to pre-fill this form... <strong id="scrape-url"></strong></span>
+  `;
+  document.querySelector('.main').insertBefore(banner, document.getElementById('page-1'));
+}
+
+function updateScrapingBanner(msg, success) {
+  const banner = document.getElementById('scrape-banner');
+  if (!banner) return;
+  if (success) {
+    banner.style.background = '#edfaf3';
+    banner.style.borderColor = '#b6eecf';
+    banner.style.color = '#1a7a4a';
+    banner.innerHTML = `<span>✓ ${msg} <strong>Review the pre-filled info below and correct anything that's wrong.</strong></span>`;
+  } else {
+    banner.style.background = '#fffbeb';
+    banner.style.borderColor = '#fde68a';
+    banner.style.color = '#92400e';
+    banner.innerHTML = `<span>⚠️ ${msg}</span>`;
+  }
+}
+
+async function scrapeAndPrepopulate(siteUrl) {
+  if (!siteUrl) return;
+
+  // Normalize URL
+  if (!siteUrl.startsWith('http')) siteUrl = 'https://' + siteUrl;
+  document.getElementById('biz-website').value = siteUrl;
+
+  showScrapingBanner();
+  document.getElementById('scrape-url').textContent = siteUrl;
+
+  try {
+    // Use a CORS proxy to fetch the website
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(siteUrl)}`;
+    const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(10000) });
+    const data = await res.json();
+    const html = data.contents || '';
+
+    if (!html) throw new Error('Could not fetch website content');
+
+    // Send to Claude to extract business info
+    const extractResponse = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        system: "You extract business information from website HTML. Always respond with valid JSON only. No markdown, no backticks.",
+        messages: [{
+          role: "user",
+          content: `Extract business information from this website HTML and return as JSON. If you can't find something, use an empty string "".
+
+HTML (first 8000 chars):
+${html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi,'').replace(/<style[^>]*>[\s\S]*?<\/style>/gi,'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().slice(0,8000)}
+
+Return this exact JSON structure:
+{
+  "businessName": "",
+  "businessType": "",
+  "phone": "",
+  "address": "",
+  "city": "",
+  "hours": "",
+  "services": "",
+  "tagline": "",
+  "aboutText": "",
+  "email": ""
+}`
+        }]
+      })
+    });
+
+    const extractResult = await extractResponse.json();
+    let info = {};
+    try {
+      info = JSON.parse(extractResult.content?.[0]?.text || '{}');
+    } catch(e) { info = {}; }
+
+    // Pre-populate form fields
+    let filled = 0;
+    if (info.businessName) { document.getElementById('biz-name').value = info.businessName; filled++; }
+    if (info.phone) { document.getElementById('biz-phone').value = info.phone; filled++; }
+    if (info.address) { document.getElementById('biz-address').value = info.address; filled++; }
+    if (info.hours) { document.getElementById('biz-hours').value = info.hours; filled++; }
+    if (info.services) { document.getElementById('services-list').value = info.services; filled++; }
+    if (info.tagline) { document.getElementById('tagline').value = info.tagline; filled++; }
+    if (info.aboutText) { document.getElementById('story').value = info.aboutText; filled++; }
+    if (info.email) { document.getElementById('biz-email').value = info.email; filled++; }
+    if (info.city) { document.getElementById('service-area').value = info.city; }
+
+    // Try to match business type
+    if (info.businessType) {
+      const select = document.getElementById('biz-type');
+      const options = [...select.options];
+      const match = options.find(o => o.text.toLowerCase().includes(info.businessType.toLowerCase().split(' ')[0]));
+      if (match) { select.value = match.value; filled++; }
+    }
+
+    updateScrapingBanner(`Found ${filled} fields from your existing website.`, true);
+
+  } catch(e) {
+    updateScrapingBanner(`Couldn't scan your website automatically — please fill in the form below.`, false);
+  }
+}
+
+// Auto-run on page load if ?site= param exists
+window.addEventListener('load', () => {
+  const site = getSiteParam();
+  if (site) scrapeAndPrepopulate(site);
+});
+</script>
+</body>
+</html>

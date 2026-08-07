@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebRevive AI — Sales Playbook</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f4f5f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1a1a1a; }
+  .nav { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 0 32px; height: 54px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
+  .nav-mark { width: 28px; height: 28px; background: #1a6ef5; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; color: #fff; }
+  .nav-title { font-size: 15px; font-weight: 600; color: #111; }
+  .nav-title span { color: #1a6ef5; }
+  .main { max-width: 860px; margin: 0 auto; padding: 32px; }
+  h1 { font-size: 26px; font-weight: 700; color: #111; margin-bottom: 6px; }
+  .subtitle { font-size: 14px; color: #888; margin-bottom: 32px; }
+  .section { background: #fff; border: 1px solid #e8e8e8; border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+  .section-title { font-size: 13px; font-weight: 700; color: #1a6ef5; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+  .section-title .icon { font-size: 16px; }
+  h2 { font-size: 17px; font-weight: 600; color: #111; margin-bottom: 12px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; margin-top: 16px; }
+  p { font-size: 14px; line-height: 1.7; color: #444; margin-bottom: 10px; }
+  .script-block { background: #f0f4ff; border-left: 3px solid #1a6ef5; border-radius: 0 8px 8px 0; padding: 14px 16px; margin: 10px 0; font-size: 14px; color: #1a1a1a; line-height: 1.7; font-style: italic; }
+  .script-block strong { color: #1a6ef5; font-style: normal; }
+  .note-block { background: #fffbeb; border-left: 3px solid #f59e0b; border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 10px 0; font-size: 13px; color: #78350f; line-height: 1.6; }
+  .rebuttal { background: #f9f9f9; border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+  .rebuttal-q { font-size: 14px; font-weight: 600; color: #cc0000; margin-bottom: 8px; }
+  .rebuttal-a { font-size: 14px; color: #444; line-height: 1.7; }
+  .rebuttal-a em { color: #1a6ef5; font-style: normal; font-weight: 500; }
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item { display: flex; gap: 16px; padding-bottom: 20px; position: relative; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-left { display: flex; flex-direction: column; align-items: center; width: 36px; flex-shrink: 0; }
+  .tl-num { width: 32px; height: 32px; border-radius: 50%; background: #1a6ef5; color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .tl-line { width: 2px; background: #e8e8e8; flex: 1; margin-top: 6px; }
+  .tl-item:last-child .tl-line { display: none; }
+  .tl-content { flex: 1; padding-top: 4px; }
+  .tl-title { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px; }
+  .tl-time { font-size: 12px; color: #1a6ef5; font-weight: 500; margin-bottom: 6px; }
+  .tl-desc { font-size: 13px; color: #666; line-height: 1.6; }
+  .page-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 8px; }
+  .page-card { background: #f9f9f9; border: 1px solid #e8e8e8; border-radius: 8px; padding: 14px; }
+  .page-num { font-size: 11px; font-weight: 700; color: #1a6ef5; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .page-name { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 6px; }
+  .page-desc { font-size: 12px; color: #888; line-height: 1.5; }
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { font-size: 14px; color: #444; padding: 6px 0; border-bottom: 1px solid #f5f5f5; display: flex; gap: 8px; align-items: flex-start; line-height: 1.5; }
+  .checklist li::before { content: '☐'; color: #1a6ef5; font-size: 16px; flex-shrink: 0; margin-top: -1px; }
+  .price-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .price-table th { text-align: left; color: #888; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 12px; border-bottom: 1px solid #e8e8e8; }
+  .price-table td { padding: 12px 12px; border-bottom: 1px solid #f5f5f5; color: #444; }
+  .price-table td:last-child { font-weight: 600; color: #111; }
+  .badge-green { display: inline-block; background: #edfaf3; color: #1a7a4a; border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 600; }
+  @media(max-width:700px) { .main{padding:16px;} .page-grid{grid-template-columns:1fr 1fr;} }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-mark">WR</div>
+  <span class="nav-title">WebRevive <span>AI</span> — Sales Playbook</span>
+</nav>
+
+<main class="main">
+  <h1>WebRevive AI Sales Playbook</h1>
+  <p class="subtitle">Discovery call script · Rebuttal guide · Delivery process · Website formula</p>
+
+  <!-- SECTION 1: BEFORE THE CALL -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📋</span>Before the call — prep (5 min)</div>
+    <ul class="checklist">
+      <li>Pull up their current website — have it open on your screen</li>
+      <li>Note their Google rating and number of reviews</li>
+      <li>Note the 2–3 specific site issues our system flagged (no HTTPS, no mobile, no booking, etc.)</li>
+      <li>Know their city and category</li>
+      <li>Have the before/after mockup email open so you can reference it</li>
+      <li>Have Calendly open — you may need to confirm the appointment time</li>
+      <li>Have the pricing ready: $1,500 website · $200–500 chatbot add-on</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 2: CALL SCRIPT -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📞</span>Discovery call script — 20 minutes</div>
+
+    <h3>Opening (0–2 min)</h3>
+    <div class="script-block">
+      "Hi, is this [Name]? Great — this is Alex from WebRevive AI. Thanks for grabbing some time with me today. I'll keep this short — I know you're running a business and your time is valuable.<br><br>
+      Before I say anything else, I just want to confirm — did you get a chance to see the before and after mockup we sent over for [Business Name]?"
+    </div>
+    <div class="note-block">💡 Wait for their answer. If yes — great, build on it. If no — pull it up together: "No worries, let me walk you through it right now — it'll take 30 seconds."</div>
+
+    <h3>The Hook (2–5 min)</h3>
+    <div class="script-block">
+      "So what we do is pretty simple — we find local businesses with websites that are holding them back, and we rebuild them from scratch. Modern, fast, mobile-friendly, with online booking built in.<br><br>
+      Looking at your current site, we noticed [specific issue 1], [specific issue 2], and [specific issue 3]. Those things are costing you customers every week — people land on the site on their phone, it doesn't load right, and they just go to your competitor.<br><br>
+      The mockup we sent shows what your site could look like. Same business, same name, same story — just presented the way it deserves to be."
+    </div>
+
+    <h3>Discovery questions (5–12 min)</h3>
+    <div class="script-block">
+      "Can I ask you a couple quick questions so I understand your situation better?"<br><br>
+      <strong>Q1:</strong> "How are most of your new customers finding you right now — word of mouth, Google, Yelp, something else?"<br><br>
+      <strong>Q2:</strong> "When someone does find you online, what do you want them to do — call you, walk in, book online?"<br><br>
+      <strong>Q3:</strong> "Do you currently have any way for people to book or contact you online, or is it mostly phone?"<br><br>
+      <strong>Q4:</strong> "Has your website ever been updated since it was first built, or is it pretty much the original?"<br><br>
+      <strong>Q5:</strong> "What would a good month look like for you in terms of new customers?"
+    </div>
+    <div class="note-block">💡 Listen more than you talk here. Their answers tell you exactly how to frame the value. If they say "most people call us" — that's your opening to talk about how a modern site generates more calls. If they say "we want online booking" — you already have that built in.</div>
+
+    <h3>The Pitch (12–16 min)</h3>
+    <div class="script-block">
+      "Here's what we'd build for you. A clean, modern website — [4–5 pages depending on business type]. It loads fast on phones. It has a clear call to action on every page — either a booking button, a contact form, or a call button. And it's fully secure with HTTPS.<br><br>
+      For [restaurant/barbershop/auto repair] specifically, we'd include [relevant feature — reservations / online booking / service menu].<br><br>
+      We handle everything — design, copy, build, launch. You don't touch a thing. It takes about 2 weeks from start to launch.<br><br>
+      The investment is $1,500 — one time. No monthly fees, no contracts. You own it outright."
+    </div>
+
+    <h3>The Close (16–20 min)</h3>
+    <div class="script-block">
+      "Based on what you've told me, I think this is a pretty straightforward fit. The site you have now isn't doing the job — and for $1,500 you get something that works for the next 5–10 years.<br><br>
+      How does that sound to you?"
+    </div>
+    <div class="note-block">💡 Stop talking after you ask. Let them respond. Silence is okay. Don't fill it.</div>
+
+    <div class="script-block">
+      <strong>If they say yes:</strong> "Great. I'll send you a simple one-page agreement and a link to pay a 50% deposit to get started. Once that's in, we'll book a 30-minute kickoff call to gather your content and we'll be live in 2 weeks."<br><br>
+      <strong>If they need to think:</strong> "Totally fair. What's the main thing you'd want to think through?" [Listen, address it, then:] "Would it help if I sent you the mockup again along with a summary of everything we'd build? That way you have something to look at and share with whoever else is involved."
+    </div>
+  </div>
+
+  <!-- SECTION 3: REBUTTAL GUIDE -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🛡️</span>Rebuttal guide — common objections</div>
+
+    <div class="rebuttal">
+      <div class="rebuttal-q">"I already have a website."</div>
+      <div class="rebuttal-a">"Absolutely — and I'm not saying it's bad. What I'm saying is that based on what we looked at, it's not doing everything it could for you. [Specific issue] means people are probably bouncing before they contact you. The question isn't whether you have a website — it's whether your website is working as hard as it should be."</div>
+    </div>
+
+    <div class="rebuttal">
+      <div class="rebuttal-q">"$1,500 is too expensive."</div>
+      <div class="rebuttal-a">"I hear you. Let me put it in perspective — if a better website brought you just 2 or 3 extra customers a month, how long would it take to pay for itself? For most businesses we work with, it's less than a month. After that it's pure upside. And there are no monthly fees — you pay once and you're done."</div>
+    </div>
+
+    <div class="rebuttal">
+      <div class="rebuttal-q">"I don't have time for this right now."</div>
+      <div class="rebuttal-a">"That's exactly why we built this the way we did. You don't need to do anything. We gather your info in one 30-minute call, and then we build everything. You review it once before we launch. That's it. Total time commitment from you — maybe an hour."</div>
+    </div>
+
+    <div class="rebuttal">
+      <div class="rebuttal-q">"I need to talk to my partner / spouse / business partner first."</div>
+      <div class="rebuttal-a">"Totally makes sense — this is a business decision. Would it be helpful if I sent over a one-page summary of everything included so you have something to share with them? And if it makes sense, we can set up a quick call with both of you."</div>
+    </div>
+
+    <div class="rebuttal">
+      <div class="rebuttal-q">"Can you just update my current site instead of rebuilding it?"</div>
+      <div class="rebuttal-a">"We looked at that option, and honestly, the issues with your current site go pretty deep — [specific issue]. Patching it would cost almost as much and you'd still end up with an old foundation. A clean rebuild gives you something solid that'll last 5–10 years. That's why we build from scratch."</div>
+    </div>
+
+    <div class="rebuttal">
+      <div class="rebuttal-q">"I tried a web company before and it was a disaster."</div>
+      <div class="rebuttal-a">"I'm sorry to hear that — unfortunately it's more common than it should be. What happened?" [Listen.] "What we do differently is we keep it simple — a proven formula, a fixed price, a fixed timeline, and you see the design before we build anything. No surprises."</div>
+    </div>
+
+    <div class="rebuttal">
+      <div class="rebuttal-q">"Can I see examples of other sites you've built?"</div>
+      <div class="rebuttal-a">"Absolutely — I'll send you a few examples right after this call. They're all in your industry so you can see exactly what we'd build for you."</div>
+    </div>
+
+    <div class="rebuttal">
+      <div class="rebuttal-q">"How do I know this will actually get me more customers?"</div>
+      <div class="rebuttal-a">"Honest answer — I can't guarantee more customers, because that depends on a lot of things. What I can guarantee is that your site will no longer be turning people away. Right now people are finding you, landing on your site, and leaving because it's hard to use on a phone or they can't figure out how to contact you. We fix that."</div>
+    </div>
+
+    <div class="rebuttal">
+      <div class="rebuttal-q">"Do I own the website after?"</div>
+      <div class="rebuttal-a">"100% — you own everything outright. The domain, the files, all of it. We don't lock you into anything. Once it's built, it's yours."</div>
+    </div>
+
+    <div class="rebuttal">
+      <div class="rebuttal-q">"What about hosting and maintenance?"</div>
+      <div class="rebuttal-a">"Hosting is separate — it runs about $10–20/month depending on the provider, which we'll help you set up. Maintenance is optional — most of our sites are simple enough that you won't need much. But if you ever need updates, we're available at an hourly rate."</div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: DELIVERY PROCESS -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🚀</span>Delivery process — from yes to launch</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-num">1</div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Agreement + deposit</div>
+          <div class="tl-time">Day 0 — same day as close</div>
+          <div class="tl-desc">Send one-page agreement via DocuSign or HelloSign. Collect 50% deposit ($750) via Stripe or Zelle. Once received, book the kickoff call.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-num">2</div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Kickoff call — content gathering</div>
+          <div class="tl-time">Day 1–2 · 30 minutes</div>
+          <div class="tl-desc">Collect: logo (or create one), photos (or use stock), business hours, services/menu, contact info, any specific copy they want to keep. Fill out the WebRevive intake form together on the call.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-num">3</div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Build</div>
+          <div class="tl-time">Day 3–10 · No client involvement</div>
+          <div class="tl-desc">Build the site using the WebRevive template for their business category. Apply their branding, copy, photos. Set up online booking if included. Internal review before sending to client.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-num">4</div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Client review</div>
+          <div class="tl-time">Day 11–12 · One round of revisions</div>
+          <div class="tl-desc">Send preview link. Client has 48 hours to review and request changes. One round of revisions included. Major scope changes are quoted separately.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-num">5</div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Final payment + launch</div>
+          <div class="tl-time">Day 13–14</div>
+          <div class="tl-desc">Collect remaining 50% ($750). Point their domain to the new site. Launch. Send them a "Your site is live" email with login credentials and a simple how-to guide.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-num">6</div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-title">AI Chatbot upsell (optional)</div>
+          <div class="tl-time">Day 14+ · $200–500 add-on</div>
+          <div class="tl-desc">Offer the AI chatbot embed on the live site. Handles FAQs, captures leads after hours, books appointments. Easy yes for clients who are already happy with the site.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: WEBSITE FORMULA -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🏗️</span>The WebRevive website formula — 5 pages</div>
+    <p>Every WebRevive site follows the same structure. Clean, fast, mobile-first. Adapted for each business type but built on the same proven skeleton.</p>
+
+    <div class="page-grid">
+      <div class="page-card">
+        <div class="page-num">Page 1</div>
+        <div class="page-name">Home</div>
+        <div class="page-desc">Hero with strong headline + CTA button. 3 trust signals (Google rating, years in business, # of customers). Services overview. One testimonial. Footer with contact + hours.</div>
+      </div>
+      <div class="page-card">
+        <div class="page-num">Page 2</div>
+        <div class="page-name">Services / Menu</div>
+        <div class="page-desc">Clear list of what they offer with brief descriptions. Prices where appropriate. Photos. CTA at bottom.</div>
+      </div>
+      <div class="page-card">
+        <div class="page-num">Page 3</div>
+        <div class="page-name">About</div>
+        <div class="page-desc">Story of the business, owner photo if available, years in operation, what makes them different. Builds trust before the contact ask.</div>
+      </div>
+      <div class="page-card">
+        <div class="page-num">Page 4</div>
+        <div class="page-name">Book / Contact</div>
+        <div class="page-desc">Online booking widget (Calendly, Booksy, OpenTable depending on category) OR simple contact form. Phone number prominent. Map embed. Hours.</div>
+      </div>
+      <div class="page-card">
+        <div class="page-num">Page 5</div>
+        <div class="page-name">Reviews / Gallery</div>
+        <div class="page-desc">Embedded Google reviews or hand-picked testimonials. Photo gallery if relevant (restaurants, salons). Optional — skip for simpler businesses.</div>
+      </div>
+      <div class="page-card" style="background:#f0f4ff;border-color:#c7d8fd;">
+        <div class="page-num" style="color:#1a6ef5;">Add-on</div>
+        <div class="page-name">AI Chatbot</div>
+        <div class="page-desc">Embedded on all pages. Answers FAQs, captures name/email/phone, books appointments. Powered by Claude API. $200–500 one-time.</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:20px;">Category-specific additions</h3>
+    <table class="price-table" style="margin-top:8px;">
+      <thead><tr><th>Business type</th><th>Special feature</th><th>Booking tool</th></tr></thead>
+      <tbody>
+        <tr><td>Restaurant</td><td>Menu page, reservations, hours + holiday closures</td><td>OpenTable or Resy embed</td></tr>
+        <tr><td>Barbershop / Salon</td><td>Staff profiles, service menu with prices</td><td>Booksy or Square Appointments</td></tr>
+        <tr><td>Auto repair</td><td>Services list, "Get a quote" form, before/after photos</td><td>Simple contact form + phone CTA</td></tr>
+        <tr><td>Plumber</td><td>Emergency call button, service areas, trust badges</td><td>Phone CTA + contact form</td></tr>
+        <tr><td>Nail salon</td><td>Service menu with photos, gallery, gift card option</td><td>Booksy or Vagaro embed</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 6: PRICING -->
+  <div class="section">
+    <div class="section-title"><span class="icon">💰</span>Pricing & packages</div>
+    <table class="price-table">
+      <thead><tr><th>Item</th><th>What's included</th><th>Price</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Website Revival</strong></td><td>5-page site, mobile-optimized, HTTPS, online booking, 1 revision round, 2-week delivery</td><td>$1,500</td></tr>
+        <tr><td><strong>AI Chatbot Add-on</strong></td><td>Claude-powered chat widget, FAQ handling, lead capture, appointment booking</td><td>$200–500</td></tr>
+        <tr><td><strong>Logo design</strong></td><td>Simple logo if they don't have one — 2 concepts, 1 revision</td><td>$150</td></tr>
+        <tr><td><strong>Ongoing maintenance</strong></td><td>Monthly updates, content changes, security patches</td><td>$75/mo</td></tr>
+        <tr><td><strong>Rush delivery</strong></td><td>1-week turnaround instead of 2</td><td>+$300</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:16px;padding:14px 16px;background:#edfaf3;border-radius:8px;border:1px solid #b6eecf;">
+      <p style="margin:0;font-size:13px;color:#1a7a4a;"><strong>Payment terms:</strong> 50% deposit to start ($750) · 50% on launch ($750) · Accepted via Zelle, Venmo, Stripe, or check</p>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>
