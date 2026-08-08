@@ -1,0 +1,45 @@
+{
+  "lastUpdated": "2026-08-07T00:00:00Z",
+  "stats": {
+    "totalScanned": 387,
+    "totalQualified": 34,
+    "totalSent": 0,
+    "totalBooked": 0,
+    "qualifyRate": 9
+  },
+  "systemStatus": {
+    "resendDomain": "pending",
+    "dkim": "verified",
+    "spf": "pending",
+    "mx": "pending",
+    "googlePlaces": "active",
+    "anthropic": "active",
+    "anthropicCredits": 19.50,
+    "suppressionList": "active",
+    "suppressedCount": 0,
+    "cronSchedule": "Daily 8:00 AM Pacific"
+  },
+  "recentProspects": [
+    { "name": "Good Fellaz Barbershop", "city": "Garden Grove", "category": "Barbershop", "email": "goodfellazbs@gmail.com", "score": 55, "status": "qualified" },
+    { "name": "The Cellar Restaurant", "city": "Fullerton", "category": "Restaurant", "email": "management@cellardining.com", "score": 35, "status": "qualified" },
+    { "name": "Mamma Mia", "city": "Fullerton", "category": "Restaurant", "email": "riverside@mammamiarnb.com", "score": 35, "status": "qualified" },
+    { "name": "PERLE NAILS", "city": "Orange", "category": "Nail salon", "email": "Perlenails@icloud.com", "score": 30, "status": "qualified" },
+    { "name": "Fuoco Pizzeria", "city": "Fullerton", "category": "Restaurant", "email": "mail@fuocopizza.com", "score": 40, "status": "qualified" }
+  ],
+  "activityLog": [
+    { "type": "green", "text": "All 4 team pages live on <strong>webreviveai.com</strong>", "time": "1h ago" },
+    { "type": "green", "text": "GitHub Pages SSL certificate <strong>issued and working</strong>", "time": "1h ago" },
+    { "type": "blue", "text": "Cloudflare DNS active for <strong>webrevivemail.com</strong>", "time": "2h ago" },
+    { "type": "amber", "text": "Resend domain <strong>verifying</strong> — DKIM verified, MX pending", "time": "2h ago" },
+    { "type": "green", "text": "Client intake form live — <strong>auto-scrapes prospect websites</strong>", "time": "3h ago" },
+    { "type": "green", "text": "AI site builder built — <strong>generates full 5-page website</strong>", "time": "4h ago" },
+    { "type": "green", "text": "Sales playbook live — <strong>call script + rebuttals ready</strong>", "time": "5h ago" }
+  ],
+  "config": {
+    "maxScan": 50,
+    "maxEmails": 10,
+    "minScore": 30,
+    "cities": ["Anaheim, CA", "Santa Ana, CA", "Garden Grove, CA", "Orange, CA", "Fullerton, CA"],
+    "bizTypes": ["auto repair shop", "plumber", "barbershop", "nail salon", "restaurant"]
+  }
+}
