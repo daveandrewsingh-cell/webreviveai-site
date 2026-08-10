@@ -173,21 +173,24 @@
             🔒 <span id="after-url">yourbusiness.com</span>
           </div>
         </div>
-        <div id="mockup-hero-section" class="mockup-hero" style="background:linear-gradient(135deg,#1a6ef5,#0044cc);">
+        <div id="mockup-hero-section" class="mockup-hero" style="min-height:280px;background:linear-gradient(135deg,#1a0a00,#3d1a00);background-size:cover;background-position:center;position:relative;">
+          <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);z-index:0;"></div>
+          <div style="position:relative;z-index:1;">
           <div class="mockup-nav">
             <span class="mockup-logo" id="mockup-logo">Business Name</span>
             <button class="mockup-book" id="mockup-book-btn" style="background:#fff;color:#1a6ef5;" onclick="window.open(document.getElementById('calendly-link').href,'_blank')">Book Now</button>
           </div>
-          <div style="padding:20px 10px;">
-            <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:8px;" id="mockup-city">City, CA</div>
-            <div class="mockup-headline" id="mockup-headline">Modern, Professional Website That Works For You</div>
-            <div class="mockup-sub" id="mockup-sub">Fast · Mobile-friendly · Online booking included</div>
-            <a href="#book" class="mockup-cta" id="mockup-cta-btn" style="background:#fff;color:#1a6ef5;">Book an Appointment →</a>
-            <div class="mockup-stats">
-              <div><span class="mockup-stat-val" id="mockup-rating">★★★★★</span><span class="mockup-stat-lbl">Google Rating</span></div>
-              <div><span class="mockup-stat-val">📱</span><span class="mockup-stat-lbl">Mobile-ready</span></div>
-              <div><span class="mockup-stat-val">🔒</span><span class="mockup-stat-lbl">Secure</span></div>
+          <div style="padding:24px 16px 20px;text-align:center;">
+            <div style="font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:10px;" id="mockup-city">City, CA</div>
+            <div class="mockup-headline" id="mockup-headline" style="font-size:clamp(16px,4vw,24px);text-shadow:0 2px 8px rgba(0,0,0,0.4);">Modern Professional Website</div>
+            <div class="mockup-sub" id="mockup-sub" style="font-size:12px;margin-bottom:16px;">Fast · Mobile-friendly · Online booking</div>
+            <a href="#book" class="mockup-cta" id="mockup-cta-btn" style="background:#fff;color:#1a6ef5;font-size:12px;padding:9px 22px;border-radius:6px;font-weight:700;text-decoration:none;display:inline-block;">Book an Appointment →</a>
+            <div class="mockup-stats" style="margin-top:16px;">
+              <div style="text-align:center;"><span class="mockup-stat-val" id="mockup-rating" style="color:#f6ad55;">★★★★★</span><span class="mockup-stat-lbl">Google Rating</span></div>
+              <div style="text-align:center;"><span class="mockup-stat-val">📱</span><span class="mockup-stat-lbl">Mobile-ready</span></div>
+              <div style="text-align:center;"><span class="mockup-stat-val">🔒</span><span class="mockup-stat-lbl">Secure</span></div>
             </div>
+          </div>
           </div>
         </div>
         <div class="after-features">
@@ -303,8 +306,31 @@ const colors = {
 };
 const catKey = Object.keys(colors).find(k => category.toLowerCase().includes(k)) || 'barbershop';
 const scheme = colors[catKey];
+
+// AI image prompts by category
+const imagePrompts = {
+  'restaurant': 'elegant restaurant interior warm lighting cocktails fine dining candles bokeh photography',
+  'barbershop': 'modern barbershop interior clean professional barber chair leather vintage aesthetic',
+  'auto repair': 'professional auto repair shop clean modern garage mechanic tools organized',
+  'nail salon': 'luxury nail salon interior pastel elegant manicure station beautiful lighting',
+  'plumber': 'professional plumber modern clean bathroom renovation luxury home interior',
+  'hair salon': 'elegant hair salon interior modern styling chairs mirrors beautiful lighting',
+  'dentist': 'modern dental office clean professional bright welcoming interior design',
+};
+const promptKey = Object.keys(imagePrompts).find(k => category.toLowerCase().includes(k)) || 'restaurant';
+const imagePrompt = imagePrompts[promptKey];
+
+// Load AI-generated hero image
 const heroSection = document.getElementById('mockup-hero-section');
-heroSection.style.background = scheme.bg;
+const aiImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt + ', professional photography, high quality, 16:9')}?width=800&height=400&nologo=true`;
+
+// Set as background with overlay
+heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.7)), url('${aiImageUrl}')`;
+heroSection.style.backgroundSize = 'cover';
+heroSection.style.backgroundPosition = 'center';
+heroSection.style.transition = 'background 0.5s';
+
+// Also set colors
 document.getElementById('mockup-book-btn').style.background = scheme.accent;
 document.getElementById('mockup-book-btn').style.color = scheme.dark;
 document.getElementById('mockup-cta-btn').style.background = scheme.accent;
