@@ -173,7 +173,8 @@
             🔒 <span id="after-url">yourbusiness.com</span>
           </div>
         </div>
-        <div id="mockup-hero-section" class="mockup-hero" style="min-height:280px;background:#111;background-size:cover;background-position:center;position:relative;overflow:hidden;">
+        <div id="mockup-hero-section" class="mockup-hero" style="min-height:280px;background:#1a1a2e;position:relative;overflow:hidden;">
+          <img id="hero-bg-img" src="https://images.pexels.com/photos/941861/pexels-photo-941861.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;" />
           <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.25);z-index:1;"></div>
           <div style="position:relative;z-index:2;">
           <div class="mockup-nav">
@@ -480,33 +481,23 @@ function closeFullPreview() {
 let aiImageUrl = '';
 let scheme = {};
 
-// Load hero image using img tag for maximum browser compatibility
+// Load hero image - swap the img src based on category
 const heroSection = document.getElementById('mockup-hero-section');
+const heroBgImg = document.getElementById('hero-bg-img');
 
 const categoryImages = {
-  'restaurant': 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80',
-  'barbershop': 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1200&q=80',
-  'auto repair': 'https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=1200&q=80',
-  'nail salon': 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1200&q=80',
-  'plumber': 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=1200&q=80',
-  'hair salon': 'https://images.unsplash.com/photo-1560066984-138daaa06744?w=1200&q=80',
-  'dentist': 'https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=1200&q=80',
+  'restaurant': 'https://images.pexels.com/photos/941861/pexels-photo-941861.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'barbershop': 'https://images.pexels.com/photos/1813272/pexels-photo-1813272.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'auto repair': 'https://images.pexels.com/photos/1409999/pexels-photo-1409999.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'nail salon': 'https://images.pexels.com/photos/3997379/pexels-photo-3997379.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'plumber': 'https://images.pexels.com/photos/6419128/pexels-photo-6419128.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'hair salon': 'https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'dentist': 'https://images.pexels.com/photos/3845741/pexels-photo-3845741.jpeg?auto=compress&cs=tinysrgb&w=800',
 };
 
 const imgKey = Object.keys(categoryImages).find(k => category.toLowerCase().includes(k)) || 'restaurant';
 aiImageUrl = categoryImages[imgKey];
-
-// Insert actual img element behind the content
-heroSection.style.position = 'relative';
-heroSection.style.overflow = 'hidden';
-const bgImg = document.createElement('img');
-bgImg.src = aiImageUrl;
-bgImg.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;';
-bgImg.onerror = function() {
-  // If Unsplash fails, try a placeholder
-  this.src = 'https://placehold.co/1200x500/1a1a2e/ffffff?text=' + encodeURIComponent(bizName);
-};
-heroSection.insertBefore(bgImg, heroSection.firstChild);
+if (heroBgImg) heroBgImg.src = aiImageUrl;
 
 // Also set colors
 document.getElementById('mockup-book-btn').style.background = scheme.accent;
