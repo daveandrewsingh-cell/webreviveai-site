@@ -480,30 +480,32 @@ function closeFullPreview() {
 let aiImageUrl = '';
 let scheme = {};
 
-// Load AI-generated hero image
+// Load hero image - use Unsplash for reliable instant loading
 const heroSection = document.getElementById('mockup-hero-section');
-aiImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt + ', professional photography, high quality, 16:9')}?width=800&height=400&nologo=true&seed=42`;
 
-// Show color gradient while image loads
-heroSection.style.background = scheme.bg;
+const unsplashKeywords = {
+  'restaurant': 'fine-dining,restaurant,food',
+  'barbershop': 'barbershop,barber,salon',
+  'auto repair': 'auto-repair,garage,mechanic',
+  'nail salon': 'nail-salon,beauty,spa',
+  'plumber': 'plumbing,bathroom,renovation',
+  'hair salon': 'hair-salon,beauty,hairstyle',
+  'dentist': 'dental,dentist,clinic',
+};
+const unsplashKey = Object.keys(unsplashKeywords).find(k => category.toLowerCase().includes(k)) || 'restaurant';
+const keyword = unsplashKeywords[unsplashKey];
 
-// Preload image then apply it
+// Use a direct Unsplash image URL - fast and reliable
+aiImageUrl = `https://source.unsplash.com/800x500/?${keyword}`;
+
 function applyHeroImage(url) {
   heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.15),rgba(0,0,0,0.3)), url('${url}')`;
   heroSection.style.backgroundSize = 'cover';
   heroSection.style.backgroundPosition = 'center';
-  aiImageUrl = url;
 }
 
-const preloadImg = new Image();
-preloadImg.onload = () => applyHeroImage(aiImageUrl);
-preloadImg.onerror = () => {
-  // Fallback to Unsplash free images
-  const unsplashKeyword = imagePrompt.split(',')[0].trim().replace(/ /g, '-');
-  const fallbackUrl = `https://source.unsplash.com/800x400/?${encodeURIComponent(unsplashKeyword)}`;
-  applyHeroImage(fallbackUrl);
-};
-preloadImg.src = aiImageUrl;
+// Apply immediately - Unsplash redirects fast
+applyHeroImage(aiImageUrl);
 
 // Also set colors
 document.getElementById('mockup-book-btn').style.background = scheme.accent;
