@@ -482,13 +482,28 @@ let scheme = {};
 
 // Load AI-generated hero image
 const heroSection = document.getElementById('mockup-hero-section');
-aiImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt + ', professional photography, high quality, 16:9')}?width=800&height=400&nologo=true`;
+aiImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt + ', professional photography, high quality, 16:9')}?width=800&height=400&nologo=true&seed=42`;
 
-// Set as background with overlay
-heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.15),rgba(0,0,0,0.35)), url('${aiImageUrl}')`;
-heroSection.style.backgroundSize = 'cover';
-heroSection.style.backgroundPosition = 'center';
-heroSection.style.transition = 'background 0.5s';
+// Show color gradient while image loads
+heroSection.style.background = scheme.bg;
+
+// Preload image then apply it
+function applyHeroImage(url) {
+  heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.15),rgba(0,0,0,0.3)), url('${url}')`;
+  heroSection.style.backgroundSize = 'cover';
+  heroSection.style.backgroundPosition = 'center';
+  aiImageUrl = url;
+}
+
+const preloadImg = new Image();
+preloadImg.onload = () => applyHeroImage(aiImageUrl);
+preloadImg.onerror = () => {
+  // Fallback to Unsplash free images
+  const unsplashKeyword = imagePrompt.split(',')[0].trim().replace(/ /g, '-');
+  const fallbackUrl = `https://source.unsplash.com/800x400/?${encodeURIComponent(unsplashKeyword)}`;
+  applyHeroImage(fallbackUrl);
+};
+preloadImg.src = aiImageUrl;
 
 // Also set colors
 document.getElementById('mockup-book-btn').style.background = scheme.accent;
