@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Free Website Mockup — WebRevive AI</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f4f5f7;color:#1a1a1a;}
+  
+  .top-bar{background:#1a6ef5;color:#fff;text-align:center;padding:10px 20px;font-size:13px;font-weight:500;}
+  .top-bar a{color:#fff;text-decoration:underline;}
+  
+  .hero{background:#fff;border-bottom:1px solid #e8e8e8;padding:32px 20px;text-align:center;}
+  .hero-badge{display:inline-block;background:#edfaf3;border:1px solid #b6eecf;border-radius:20px;padding:4px 14px;font-size:12px;font-weight:600;color:#1a7a4a;margin-bottom:14px;}
+  .hero h1{font-size:clamp(22px,4vw,36px);font-weight:700;color:#111;margin-bottom:8px;line-height:1.2;}
+  .hero h1 span{color:#1a6ef5;}
+  .hero p{font-size:15px;color:#666;margin-bottom:20px;max-width:500px;margin-left:auto;margin-right:auto;}
+  .cta-btn{display:inline-block;background:#1a6ef5;color:#fff;padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;margin-bottom:8px;}
+  .cta-btn:hover{background:#1458cc;}
+  .cta-sub{font-size:12px;color:#aaa;display:block;margin-top:6px;}
+
+  .container{max-width:1100px;margin:0 auto;padding:40px 20px;}
+  
+  .section-label{font-size:11px;font-weight:700;color:#1a6ef5;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
+  .section-title{font-size:clamp(20px,3vw,28px);font-weight:700;color:#111;margin-bottom:12px;}
+  .section-sub{font-size:15px;color:#666;line-height:1.7;margin-bottom:32px;max-width:600px;}
+
+  /* COMPARE SECTION */
+  .compare{background:#fff;border-radius:16px;border:1px solid #e8e8e8;overflow:hidden;margin-bottom:32px;box-shadow:0 4px 24px rgba(0,0,0,0.06);}
+  .compare-header{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #e8e8e8;}
+  .compare-label{padding:12px 20px;text-align:center;font-size:13px;font-weight:700;}
+  .compare-label.before{background:#fff3f3;color:#cc0000;border-right:1px solid #e8e8e8;}
+  .compare-label.after{background:#f0f4ff;color:#1a6ef5;}
+  .compare-body{display:grid;grid-template-columns:1fr 1fr;}
+  
+  /* BEFORE panel */
+  .before-panel{border-right:1px solid #e8e8e8;background:#f8f8f8;}
+  .browser-bar{background:#e0dcd8;padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #ccc;}
+  .browser-dots{display:flex;gap:4px;}
+  .browser-dots span{width:10px;height:10px;border-radius:50%;}
+  .browser-url{flex:1;background:#fff;border:1px solid #ccc;border-radius:4px;padding:3px 10px;font-size:11px;color:#888;font-family:monospace;display:flex;align-items:center;gap:4px;}
+  .warn-icon{color:#cc0000;font-size:12px;}
+  .screenshot-wrap{position:relative;overflow:hidden;background:#e8e4dc;}
+  .screenshot-wrap img{width:100%;display:block;transition:opacity .3s;}
+  .screenshot-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.6));padding:12px;text-align:center;}
+  .screenshot-overlay a{color:#fff;font-size:12px;font-weight:500;text-decoration:underline;}
+  .before-issues{padding:14px 16px;background:#fff3f3;border-top:1px solid #fdd;}
+  .issue-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#cc0000;margin-bottom:6px;}
+  .issue-item:last-child{margin-bottom:0;}
+
+  /* AFTER panel */
+  .after-panel{background:#fff;}
+  .mockup-browser{background:#1a6ef5;padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,0.2);}
+  .mockup-dots{display:flex;gap:4px;}
+  .mockup-dots span{width:10px;height:10px;border-radius:50%;}
+  .mockup-url{flex:1;background:rgba(255,255,255,0.15);border-radius:4px;padding:3px 10px;font-size:11px;color:rgba(255,255,255,0.9);font-family:monospace;display:flex;align-items:center;gap:4px;}
+  .mockup-body{padding:0;}
+  .mockup-hero{padding:28px 20px;text-align:center;}
+  .mockup-nav{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.15);}
+  .mockup-logo{font-size:13px;font-weight:700;color:#fff;}
+  .mockup-book{font-size:10px;font-weight:700;padding:4px 12px;border-radius:4px;border:none;cursor:pointer;}
+  .mockup-headline{font-size:clamp(16px,3vw,22px);font-weight:800;color:#fff;margin-bottom:8px;line-height:1.25;}
+  .mockup-sub{font-size:11px;color:rgba(255,255,255,0.8);margin-bottom:14px;line-height:1.5;}
+  .mockup-cta{display:inline-block;padding:8px 20px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;}
+  .mockup-stats{display:flex;justify-content:center;gap:16px;margin-top:14px;}
+  .mockup-stat-val{font-size:14px;font-weight:700;display:block;}
+  .mockup-stat-lbl{font-size:9px;opacity:0.7;display:block;}
+  .after-features{padding:14px 16px;background:#f0f4ff;border-top:1px solid #c7d8fd;}
+  .feature-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#1a6ef5;margin-bottom:6px;font-weight:500;}
+  .feature-item:last-child{margin-bottom:0;}
+
+  /* CTA SECTION */
+  .cta-section{background:linear-gradient(135deg,#1a6ef5,#0044cc);border-radius:16px;padding:48px 32px;text-align:center;margin-bottom:32px;color:#fff;}
+  .cta-section h2{font-size:clamp(22px,4vw,32px);font-weight:700;margin-bottom:10px;}
+  .cta-section p{font-size:16px;color:rgba(255,255,255,0.85);margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto;}
+  .cta-white{display:inline-block;background:#fff;color:#1a6ef5;padding:15px 36px;border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;}
+  .cta-white:hover{background:rgba(255,255,255,0.92);}
+  .cta-note{font-size:13px;color:rgba(255,255,255,0.7);margin-top:10px;display:block;}
+
+  /* WHAT'S INCLUDED */
+  .included-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px;}
+  .included-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:20px;}
+  .included-icon{font-size:28px;margin-bottom:10px;}
+  .included-title{font-size:15px;font-weight:700;color:#111;margin-bottom:6px;}
+  .included-desc{font-size:13px;color:#666;line-height:1.6;}
+
+  /* PRICING */
+  .pricing-box{background:#fff;border:2px solid #1a6ef5;border-radius:16px;padding:32px;text-align:center;max-width:400px;margin:0 auto 32px;}
+  .price{font-size:52px;font-weight:800;color:#111;line-height:1;}
+  .price-sub{font-size:14px;color:#888;margin-bottom:16px;}
+  .price-features{list-style:none;text-align:left;margin-bottom:24px;}
+  .price-features li{font-size:14px;color:#444;padding:6px 0;border-bottom:1px solid #f5f5f5;display:flex;gap:8px;align-items:center;}
+  .price-features li::before{content:'✓';color:#22c55e;font-weight:700;}
+
+  @media(max-width:700px){
+    .compare-body{grid-template-columns:1fr;}
+    .before-panel{border-right:none;border-bottom:1px solid #e8e8e8;}
+    .compare-header{grid-template-columns:1fr;}
+    .compare-label.before{border-right:none;border-bottom:1px solid #e8e8e8;}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  Free mockup prepared for <strong id="biz-name-top">your business</strong> by WebRevive AI · 
+  <a href="#book">Book a free call</a>
+</div>
+
+<div class="hero">
+  <div class="hero-badge">✨ Free custom mockup — no strings attached</div>
+  <h1>This is what <span id="biz-name-hero">your business</span><br>could look like online</h1>
+  <p>We noticed your current website has some issues that may be costing you customers. So we built you a free mockup. Take a look at the difference.</p>
+  <a href="#book" class="cta-btn" id="main-cta-btn">Book a free 20-min call →</a>
+  <span class="cta-sub">No commitment · No cost · Takes 20 minutes</span>
+</div>
+
+<div class="container">
+
+  <div style="text-align:center;margin-bottom:24px;">
+    <div class="section-label">Side by side comparison</div>
+    <div class="section-title">Before & After</div>
+    <div class="section-sub" style="margin:0 auto 24px;">Your current site on the left. What we'd build on the right. Both are <strong id="biz-name-compare">your business</strong> — just presented very differently.</div>
+  </div>
+
+  <div class="compare">
+    <div class="compare-header">
+      <div class="compare-label before">⚠️ Your site today</div>
+      <div class="compare-label after">✨ What WebRevive would build</div>
+    </div>
+    <div class="compare-body">
+
+      <!-- BEFORE -->
+      <div class="before-panel">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <span style="background:#ff5f57;"></span>
+            <span style="background:#febc2e;"></span>
+            <span style="background:#28c840;"></span>
+          </div>
+          <div class="browser-url">
+            <span class="warn-icon">⚠️</span>
+            <span id="before-url">Not Secure | yourbusiness.com</span>
+          </div>
+        </div>
+        <div class="screenshot-wrap">
+          <img id="before-screenshot" 
+               src="" 
+               alt="Current website screenshot"
+               style="min-height:300px;object-fit:cover;object-position:top;"
+               onerror="this.parentElement.innerHTML='<div style=\'padding:40px 20px;text-align:center;background:#ede8df;min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;\'><p style=\'font-family:Georgia,serif;font-size:18px;color:#3a2a1a;font-weight:bold;margin-bottom:8px;\' id=\'before-biz-name2\'>BUSINESS NAME</p><p style=\'font-size:11px;color:#aaa;\'>Current website</p></div>'" />
+          <div class="screenshot-overlay">
+            <a href="#" id="before-link" target="_blank">View current site →</a>
+          </div>
+        </div>
+        <div class="before-issues" id="issues-list">
+          <div class="issue-item">✗ No HTTPS — browsers warn "Not Secure"</div>
+          <div class="issue-item">✗ Not mobile-friendly</div>
+          <div class="issue-item">✗ No online booking</div>
+        </div>
+      </div>
+
+      <!-- AFTER -->
+      <div class="after-panel">
+        <div class="mockup-browser">
+          <div class="mockup-dots">
+            <span style="background:rgba(255,255,255,0.4);"></span>
+            <span style="background:rgba(255,255,255,0.4);"></span>
+            <span style="background:rgba(255,255,255,0.4);"></span>
+          </div>
+          <div class="mockup-url">
+            🔒 <span id="after-url">yourbusiness.com</span>
+          </div>
+        </div>
+        <div id="mockup-hero-section" class="mockup-hero" style="background:linear-gradient(135deg,#1a6ef5,#0044cc);">
+          <div class="mockup-nav">
+            <span class="mockup-logo" id="mockup-logo">Business Name</span>
+            <button class="mockup-book" id="mockup-book-btn" style="background:#fff;color:#1a6ef5;" onclick="window.open(document.getElementById('calendly-link').href,'_blank')">Book Now</button>
+          </div>
+          <div style="padding:20px 10px;">
+            <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:8px;" id="mockup-city">City, CA</div>
+            <div class="mockup-headline" id="mockup-headline">Modern, Professional Website That Works For You</div>
+            <div class="mockup-sub" id="mockup-sub">Fast · Mobile-friendly · Online booking included</div>
+            <a href="#book" class="mockup-cta" id="mockup-cta-btn" style="background:#fff;color:#1a6ef5;">Book an Appointment →</a>
+            <div class="mockup-stats">
+              <div><span class="mockup-stat-val" id="mockup-rating">★★★★★</span><span class="mockup-stat-lbl">Google Rating</span></div>
+              <div><span class="mockup-stat-val">📱</span><span class="mockup-stat-lbl">Mobile-ready</span></div>
+              <div><span class="mockup-stat-val">🔒</span><span class="mockup-stat-lbl">Secure</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="after-features">
+          <div class="feature-item">✓ HTTPS secure — no more "Not Secure" warnings</div>
+          <div class="feature-item">✓ Mobile-optimized — looks great on any device</div>
+          <div class="feature-item">✓ Online booking built in</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT'S INCLUDED -->
+  <div style="text-align:center;margin-bottom:24px;">
+    <div class="section-label">What you get</div>
+    <div class="section-title">Everything included for $1,500</div>
+  </div>
+  <div class="included-grid">
+    <div class="included-card"><div class="included-icon">📱</div><div class="included-title">Mobile-first design</div><div class="included-desc">Looks perfect on phones, tablets, and desktops. Most of your customers search on mobile.</div></div>
+    <div class="included-card"><div class="included-icon">📅</div><div class="included-title">Online booking</div><div class="included-desc">Customers can book or contact you 24/7 — even while you're working or sleeping.</div></div>
+    <div class="included-card"><div class="included-icon">🔒</div><div class="included-title">HTTPS secure</div><div class="included-desc">No more "Not Secure" warning. Builds trust with every visitor who lands on your site.</div></div>
+    <div class="included-card"><div class="included-icon">⚡</div><div class="included-title">Fast loading</div><div class="included-desc">Loads in under 2 seconds. Slow sites lose customers — fast sites keep them.</div></div>
+    <div class="included-card"><div class="included-icon">📝</div><div class="included-title">5 full pages</div><div class="included-desc">Home, Services, About, Reviews, and Contact. Everything a customer needs to choose you.</div></div>
+    <div class="included-card"><div class="included-icon">🚀</div><div class="included-title">Ready in 2 weeks</div><div class="included-desc">We handle everything. One 30-min call from you, then we build and launch.</div></div>
+  </div>
+
+  <!-- PRICING -->
+  <div style="text-align:center;margin-bottom:24px;">
+    <div class="section-label">Pricing</div>
+    <div class="section-title">Simple, flat-rate pricing</div>
+  </div>
+  <div class="pricing-box">
+    <div class="price">$1,500</div>
+    <div class="price-sub">One-time · No monthly fees · You own it</div>
+    <ul class="price-features">
+      <li>5-page professional website</li>
+      <li>Mobile-optimized design</li>
+      <li>HTTPS / SSL security</li>
+      <li>Online booking integration</li>
+      <li>Your content & branding</li>
+      <li>2-week delivery</li>
+      <li>One round of revisions</li>
+      <li>You own the site outright</li>
+    </ul>
+    <a href="#book" class="cta-btn" style="display:block;text-align:center;">Get started →</a>
+  </div>
+
+  <!-- BOOK CTA -->
+  <div class="cta-section" id="book">
+    <h2>Ready to see what we can build for you?</h2>
+    <p>Book a free 20-minute call. We'll walk you through the mockup, answer any questions, and there's zero pressure or commitment.</p>
+    <a href="https://calendly.com/dave-webreviveai/30min?utm_source=mockup_page" class="cta-white" id="calendly-link">Book your free 20-min call →</a>
+    <span class="cta-note">Free · No commitment · 20 minutes · Phone or video</span>
+  </div>
+
+  <p style="text-align:center;font-size:12px;color:#aaa;margin-bottom:32px;">
+    WebRevive AI · Orange County, CA · alex@webrevivemail.com · 
+    <a href="https://webreviveai.com" style="color:#aaa;">webreviveai.com</a>
+  </p>
+
+</div>
+
+<script>
+// Read URL parameters to customize this page for each prospect
+const params = new URLSearchParams(window.location.search);
+const bizName = params.get('name') || 'Your Business';
+const website = params.get('site') || '';
+const city = params.get('city') || 'Orange County, CA';
+const category = params.get('cat') || 'business';
+const rating = params.get('rating') || '5.0';
+const issues = (params.get('issues') || 'No HTTPS,Not mobile-friendly,No online booking').split(',');
+const calendly = params.get('cal') || 'https://calendly.com/dave-webreviveai/30min';
+
+// Set business name everywhere
+document.getElementById('biz-name-top').textContent = bizName;
+document.getElementById('biz-name-hero').textContent = bizName;
+document.getElementById('biz-name-compare').textContent = bizName;
+document.getElementById('mockup-logo').textContent = bizName;
+document.getElementById('mockup-city').textContent = city;
+document.getElementById('mockup-rating').textContent = rating + '★';
+document.getElementById('mockup-headline').textContent = bizName + ' — ' + city + '\'s Trusted ' + category;
+
+// Set website URLs
+if (website) {
+  const hostname = new URL(website.startsWith('http') ? website : 'https://' + website).hostname;
+  document.getElementById('before-url').textContent = '⚠️ Not Secure | ' + hostname;
+  document.getElementById('after-url').textContent = hostname;
+  document.getElementById('before-link').href = website.startsWith('http') ? website : 'https://' + website;
+  
+  // Load real screenshot
+  const screenshotUrl = 'https://image.thum.io/get/width/600/crop/500/' + (website.startsWith('http') ? website : 'https://' + website);
+  const img = document.getElementById('before-screenshot');
+  img.src = screenshotUrl;
+}
+
+// Set issues list
+const issuesList = document.getElementById('issues-list');
+issuesList.innerHTML = issues.map(i => 
+  '<div class="issue-item">✗ ' + i.trim() + '</div>'
+).join('');
+
+// Set Calendly links
+document.getElementById('calendly-link').href = calendly + '?utm_source=mockup_page&utm_campaign=webrevive_outreach';
+document.getElementById('main-cta-btn').href = calendly + '?utm_source=mockup_page';
+document.getElementById('mockup-book-btn').onclick = () => window.open(calendly + '?utm_source=mockup_mockup', '_blank');
+
+// Set color scheme based on category
+const colors = {
+  'restaurant': {bg: 'linear-gradient(135deg,#1a0a00,#3d1a00)', accent: '#c9a96e', dark: '#1a0a00'},
+  'barbershop': {bg: 'linear-gradient(135deg,#0a1628,#1a3050)', accent: '#6eb5c9', dark: '#0a1628'},
+  'auto repair': {bg: 'linear-gradient(135deg,#0d1a0d,#1a3520)', accent: '#4caf50', dark: '#0d1a0d'},
+  'nail salon': {bg: 'linear-gradient(135deg,#2a0a2a,#4a1a4a)', accent: '#e9a0c9', dark: '#2a0a2a'},
+  'plumber': {bg: 'linear-gradient(135deg,#0a1a2a,#1a3a5a)', accent: '#4fb3e8', dark: '#0a1628'},
+};
+const catKey = Object.keys(colors).find(k => category.toLowerCase().includes(k)) || 'barbershop';
+const scheme = colors[catKey];
+const heroSection = document.getElementById('mockup-hero-section');
+heroSection.style.background = scheme.bg;
+document.getElementById('mockup-book-btn').style.background = scheme.accent;
+document.getElementById('mockup-book-btn').style.color = scheme.dark;
+document.getElementById('mockup-cta-btn').style.background = scheme.accent;
+document.getElementById('mockup-cta-btn').style.color = scheme.dark;
+document.querySelector('.mockup-browser').style.background = scheme.dark;
+document.title = 'Free Mockup for ' + bizName + ' — WebRevive AI';
+</script>
+</body>
+</html>
