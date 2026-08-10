@@ -174,7 +174,7 @@
           </div>
         </div>
         <div id="mockup-hero-section" class="mockup-hero" style="min-height:280px;background:linear-gradient(135deg,#1a0a00,#3d1a00);background-size:cover;background-position:center;position:relative;">
-          <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);z-index:0;"></div>
+          <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.25);z-index:0;"></div>
           <div style="position:relative;z-index:1;">
           <div class="mockup-nav">
             <span class="mockup-logo" id="mockup-logo">Business Name</span>
@@ -198,6 +198,112 @@
           <div class="feature-item">✓ Mobile-optimized — looks great on any device</div>
           <div class="feature-item">✓ Online booking built in</div>
         </div>
+        <!-- Full page preview button -->
+        <div style="padding:14px 16px;background:#1a6ef5;text-align:center;">
+          <a href="#" onclick="openFullPreview()" style="color:#fff;font-size:13px;font-weight:700;text-decoration:none;">👁 See this as a full website page →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULL SCREEN PREVIEW MODAL -->
+  <div id="full-preview-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:#000;">
+    <div style="position:absolute;top:0;left:0;right:0;z-index:10;">
+      <!-- Modal browser bar -->
+      <div id="modal-browser" style="padding:10px 16px;display:flex;align-items:center;gap:10px;">
+        <div style="display:flex;gap:5px;">
+          <span style="width:12px;height:12px;border-radius:50%;background:#ff5f57;display:block;"></span>
+          <span style="width:12px;height:12px;border-radius:50%;background:#febc2e;display:block;"></span>
+          <span style="width:12px;height:12px;border-radius:50%;background:#28c840;display:block;"></span>
+        </div>
+        <div style="flex:1;background:rgba(255,255,255,0.15);border-radius:6px;padding:5px 14px;font-size:12px;font-family:monospace;color:rgba(255,255,255,0.9);">🔒 <span id="modal-url">yourbusiness.com</span></div>
+        <button onclick="closeFullPreview()" style="background:rgba(255,255,255,0.2);border:none;border-radius:6px;padding:6px 14px;font-size:13px;color:#fff;cursor:pointer;font-weight:600;">✕ Close</button>
+      </div>
+    </div>
+    <!-- Full page content -->
+    <div id="modal-content" style="position:absolute;top:52px;left:0;right:0;bottom:0;overflow-y:auto;">
+      <!-- Hero section with AI image -->
+      <div id="modal-hero" style="min-height:100vh;background-size:cover;background-position:center;position:relative;display:flex;flex-direction:column;">
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);"></div>
+        <!-- Nav -->
+        <div style="position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;padding:20px 40px;border-bottom:1px solid rgba(255,255,255,0.15);">
+          <span id="modal-logo" style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px;"></span>
+          <div style="display:flex;gap:20px;align-items:center;">
+            <span style="font-size:14px;color:rgba(255,255,255,0.8);cursor:pointer;">Services</span>
+            <span style="font-size:14px;color:rgba(255,255,255,0.8);cursor:pointer;">About</span>
+            <span style="font-size:14px;color:rgba(255,255,255,0.8);cursor:pointer;">Reviews</span>
+            <a href="#modal-book" id="modal-nav-cta" style="padding:10px 22px;border-radius:7px;font-size:14px;font-weight:700;text-decoration:none;">Book Now</a>
+          </div>
+        </div>
+        <!-- Hero content -->
+        <div style="position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 40px;text-align:center;">
+          <div id="modal-city-tag" style="font-size:12px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.8);margin-bottom:16px;background:rgba(255,255,255,0.15);padding:6px 18px;border-radius:20px;display:inline-block;"></div>
+          <h1 id="modal-headline" style="font-size:clamp(32px,6vw,64px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:16px;text-shadow:0 4px 20px rgba(0,0,0,0.3);max-width:800px;"></h1>
+          <p id="modal-sub" style="font-size:18px;color:rgba(255,255,255,0.85);margin-bottom:32px;max-width:500px;line-height:1.6;"></p>
+          <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+            <a href="#modal-book" id="modal-cta1" style="padding:16px 36px;border-radius:9px;font-size:16px;font-weight:800;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,0.3);">Book Appointment →</a>
+            <a href="#" style="padding:16px 36px;border-radius:9px;font-size:16px;font-weight:600;text-decoration:none;background:rgba(255,255,255,0.15);color:#fff;border:2px solid rgba(255,255,255,0.4);">Our Services</a>
+          </div>
+          <!-- Trust badges -->
+          <div style="display:flex;gap:28px;margin-top:40px;flex-wrap:wrap;justify-content:center;">
+            <div style="text-align:center;">
+              <div id="modal-rating" style="font-size:28px;font-weight:800;color:#f6ad55;">4.8★</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.7);">Google Rating</div>
+            </div>
+            <div style="width:1px;background:rgba(255,255,255,0.2);"></div>
+            <div style="text-align:center;">
+              <div style="font-size:28px;font-weight:800;color:#fff;">📱</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.7);">Mobile-optimized</div>
+            </div>
+            <div style="width:1px;background:rgba(255,255,255,0.2);"></div>
+            <div style="text-align:center;">
+              <div style="font-size:28px;font-weight:800;color:#fff;">🔒</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.7);">Secure HTTPS</div>
+            </div>
+          </div>
+        </div>
+        <!-- Scroll indicator -->
+        <div style="position:relative;z-index:1;text-align:center;padding:20px;color:rgba(255,255,255,0.6);font-size:13px;">↓ Scroll to see more</div>
+      </div>
+
+      <!-- Services section -->
+      <div style="background:#fff;padding:64px 40px;text-align:center;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;" id="modal-services-color">Our Services</div>
+        <h2 style="font-size:36px;font-weight:800;color:#111;margin-bottom:12px;">Everything we offer</h2>
+        <p style="font-size:16px;color:#666;max-width:500px;margin:0 auto 40px;">Professional service delivered by experienced team members who care about your satisfaction.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;max-width:900px;margin:0 auto;">
+          <div style="background:#f8f9fa;border-radius:12px;padding:24px;text-align:center;"><div style="font-size:32px;margin-bottom:10px;">⭐</div><div style="font-size:16px;font-weight:700;color:#111;margin-bottom:6px;">Top Service</div><div style="font-size:13px;color:#666;">Professional quality you can count on every time.</div></div>
+          <div style="background:#f8f9fa;border-radius:12px;padding:24px;text-align:center;"><div style="font-size:32px;margin-bottom:10px;">⚡</div><div style="font-size:16px;font-weight:700;color:#111;margin-bottom:6px;">Fast & Reliable</div><div style="font-size:13px;color:#666;">Quick turnaround without sacrificing quality.</div></div>
+          <div style="background:#f8f9fa;border-radius:12px;padding:24px;text-align:center;"><div style="font-size:32px;margin-bottom:10px;">💰</div><div style="font-size:16px;font-weight:700;color:#111;margin-bottom:6px;">Fair Pricing</div><div style="font-size:13px;color:#666;">Transparent pricing with no hidden fees ever.</div></div>
+        </div>
+      </div>
+
+      <!-- Book CTA section -->
+      <div id="modal-book" style="padding:80px 40px;text-align:center;">
+        <h2 style="font-size:40px;font-weight:800;color:#fff;margin-bottom:12px;">Ready to get started?</h2>
+        <p style="font-size:18px;color:rgba(255,255,255,0.85);margin-bottom:32px;">Book your appointment online — quick and easy.</p>
+        <a id="modal-book-btn" href="#" style="display:inline-block;padding:18px 48px;border-radius:10px;font-size:18px;font-weight:800;text-decoration:none;box-shadow:0 6px 24px rgba(0,0,0,0.3);">Book Now →</a>
+        <div style="margin-top:16px;">
+          <a id="modal-phone-btn" href="#" style="color:rgba(255,255,255,0.8);font-size:15px;text-decoration:none;">Or call us directly →</a>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="background:#111;padding:24px 40px;text-align:center;">
+        <p id="modal-footer-biz" style="color:#888;font-size:13px;margin-bottom:4px;"></p>
+        <p style="color:#555;font-size:11px;">Website by <a href="https://webreviveai.com" style="color:#666;">WebRevive AI</a></p>
+      </div>
+    </div>
+
+    <!-- Sticky bottom CTA -->
+    <div id="modal-sticky-cta" style="position:fixed;bottom:0;left:0;right:0;z-index:10;padding:16px 20px;text-align:center;box-shadow:0 -4px 20px rgba(0,0,0,0.3);">
+      <p style="color:rgba(255,255,255,0.8);font-size:13px;margin-bottom:10px;">Like what you see? This could be your real website in 2 weeks.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <a id="modal-sticky-book" href="#" style="padding:12px 28px;border-radius:7px;font-size:14px;font-weight:700;text-decoration:none;background:#fff;">Book free 20-min call →</a>
+        <button onclick="closeFullPreview()" style="padding:12px 20px;border-radius:7px;font-size:14px;font-weight:600;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;cursor:pointer;">← Back to comparison</button>
+      </div>
+    </div>
+  </div>
       </div>
     </div>
   </div>
@@ -305,7 +411,7 @@ const colors = {
   'plumber': {bg: 'linear-gradient(135deg,#0a1a2a,#1a3a5a)', accent: '#4fb3e8', dark: '#0a1628'},
 };
 const catKey = Object.keys(colors).find(k => category.toLowerCase().includes(k)) || 'barbershop';
-const scheme = colors[catKey];
+scheme = colors[catKey];
 
 // AI image prompts by category
 const imagePrompts = {
@@ -320,12 +426,61 @@ const imagePrompts = {
 const promptKey = Object.keys(imagePrompts).find(k => category.toLowerCase().includes(k)) || 'restaurant';
 const imagePrompt = imagePrompts[promptKey];
 
+function openFullPreview() {
+  const modal = document.getElementById('full-preview-modal');
+  modal.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+
+  // Set modal content
+  document.getElementById('modal-url').textContent = website ? new URL(website.startsWith('http') ? website : 'https://' + website).hostname : 'yourbusiness.com';
+  document.getElementById('modal-logo').textContent = bizName;
+  document.getElementById('modal-city-tag').textContent = city;
+  document.getElementById('modal-headline').textContent = bizName + ' — ' + city + "'s Trusted " + category.charAt(0).toUpperCase() + category.slice(1);
+  document.getElementById('modal-sub').textContent = 'Professional, reliable, and serving ' + city + '. Book online, call, or visit us today.';
+  document.getElementById('modal-rating').textContent = rating + '★';
+  document.getElementById('modal-footer-biz').textContent = bizName + ' · ' + city;
+
+  // Set AI image as hero background
+  const modalHero = document.getElementById('modal-hero');
+  modalHero.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.5)), url('${aiImageUrl}')`;
+  modalHero.style.backgroundSize = 'cover';
+  modalHero.style.backgroundPosition = 'center';
+
+  // Set accent colors
+  const bookSection = document.getElementById('modal-book');
+  bookSection.style.background = scheme.bg;
+  document.getElementById('modal-cta1').style.background = scheme.accent;
+  document.getElementById('modal-cta1').style.color = scheme.dark;
+  document.getElementById('modal-book-btn').style.background = scheme.accent;
+  document.getElementById('modal-book-btn').style.color = scheme.dark;
+  document.getElementById('modal-book-btn').href = calendly;
+  document.getElementById('modal-nav-cta').style.background = scheme.accent;
+  document.getElementById('modal-nav-cta').style.color = scheme.dark;
+  document.getElementById('modal-browser').style.background = scheme.dark;
+  document.getElementById('modal-sticky-cta').style.background = scheme.dark;
+  document.getElementById('modal-sticky-book').style.color = scheme.dark;
+  document.getElementById('modal-sticky-book').href = calendly;
+  document.getElementById('modal-services-color').style.color = scheme.accent === '#c9a96e' ? '#b8860b' : scheme.accent;
+  document.getElementById('modal-phone-btn').href = 'tel:+17145550123';
+
+  modal.scrollTop = 0;
+}
+
+function closeFullPreview() {
+  document.getElementById('full-preview-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// Keep aiImageUrl and scheme accessible to openFullPreview
+let aiImageUrl = '';
+let scheme = {};
+
 // Load AI-generated hero image
 const heroSection = document.getElementById('mockup-hero-section');
-const aiImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt + ', professional photography, high quality, 16:9')}?width=800&height=400&nologo=true`;
+aiImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt + ', professional photography, high quality, 16:9')}?width=800&height=400&nologo=true`;
 
 // Set as background with overlay
-heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.7)), url('${aiImageUrl}')`;
+heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.15),rgba(0,0,0,0.35)), url('${aiImageUrl}')`;
 heroSection.style.backgroundSize = 'cover';
 heroSection.style.backgroundPosition = 'center';
 heroSection.style.transition = 'background 0.5s';
