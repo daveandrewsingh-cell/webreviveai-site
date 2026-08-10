@@ -173,9 +173,9 @@
             🔒 <span id="after-url">yourbusiness.com</span>
           </div>
         </div>
-        <div id="mockup-hero-section" class="mockup-hero" style="min-height:280px;background:linear-gradient(135deg,#1a0a00,#3d1a00);background-size:cover;background-position:center;position:relative;">
-          <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.25);z-index:0;"></div>
-          <div style="position:relative;z-index:1;">
+        <div id="mockup-hero-section" class="mockup-hero" style="min-height:280px;background:#111;background-size:cover;background-position:center;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.25);z-index:1;"></div>
+          <div style="position:relative;z-index:2;">
           <div class="mockup-nav">
             <span class="mockup-logo" id="mockup-logo">Business Name</span>
             <button class="mockup-book" id="mockup-book-btn" style="background:#fff;color:#1a6ef5;" onclick="window.open(document.getElementById('calendly-link').href,'_blank')">Book Now</button>
@@ -480,7 +480,7 @@ function closeFullPreview() {
 let aiImageUrl = '';
 let scheme = {};
 
-// Load hero image - hardcoded beautiful images by category (direct URLs, no redirects)
+// Load hero image using img tag for maximum browser compatibility
 const heroSection = document.getElementById('mockup-hero-section');
 
 const categoryImages = {
@@ -496,9 +496,17 @@ const categoryImages = {
 const imgKey = Object.keys(categoryImages).find(k => category.toLowerCase().includes(k)) || 'restaurant';
 aiImageUrl = categoryImages[imgKey];
 
-heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.15),rgba(0,0,0,0.3)), url('${aiImageUrl}')`;
-heroSection.style.backgroundSize = 'cover';
-heroSection.style.backgroundPosition = 'center';
+// Insert actual img element behind the content
+heroSection.style.position = 'relative';
+heroSection.style.overflow = 'hidden';
+const bgImg = document.createElement('img');
+bgImg.src = aiImageUrl;
+bgImg.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;';
+bgImg.onerror = function() {
+  // If Unsplash fails, try a placeholder
+  this.src = 'https://placehold.co/1200x500/1a1a2e/ffffff?text=' + encodeURIComponent(bizName);
+};
+heroSection.insertBefore(bgImg, heroSection.firstChild);
 
 // Also set colors
 document.getElementById('mockup-book-btn').style.background = scheme.accent;
