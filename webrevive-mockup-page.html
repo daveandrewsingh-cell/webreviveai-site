@@ -480,32 +480,25 @@ function closeFullPreview() {
 let aiImageUrl = '';
 let scheme = {};
 
-// Load hero image - use Unsplash for reliable instant loading
+// Load hero image - hardcoded beautiful images by category (direct URLs, no redirects)
 const heroSection = document.getElementById('mockup-hero-section');
 
-const unsplashKeywords = {
-  'restaurant': 'fine-dining,restaurant,food',
-  'barbershop': 'barbershop,barber,salon',
-  'auto repair': 'auto-repair,garage,mechanic',
-  'nail salon': 'nail-salon,beauty,spa',
-  'plumber': 'plumbing,bathroom,renovation',
-  'hair salon': 'hair-salon,beauty,hairstyle',
-  'dentist': 'dental,dentist,clinic',
+const categoryImages = {
+  'restaurant': 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80',
+  'barbershop': 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1200&q=80',
+  'auto repair': 'https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=1200&q=80',
+  'nail salon': 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1200&q=80',
+  'plumber': 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=1200&q=80',
+  'hair salon': 'https://images.unsplash.com/photo-1560066984-138daaa06744?w=1200&q=80',
+  'dentist': 'https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=1200&q=80',
 };
-const unsplashKey = Object.keys(unsplashKeywords).find(k => category.toLowerCase().includes(k)) || 'restaurant';
-const keyword = unsplashKeywords[unsplashKey];
 
-// Use a direct Unsplash image URL - fast and reliable
-aiImageUrl = `https://source.unsplash.com/800x500/?${keyword}`;
+const imgKey = Object.keys(categoryImages).find(k => category.toLowerCase().includes(k)) || 'restaurant';
+aiImageUrl = categoryImages[imgKey];
 
-function applyHeroImage(url) {
-  heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.15),rgba(0,0,0,0.3)), url('${url}')`;
-  heroSection.style.backgroundSize = 'cover';
-  heroSection.style.backgroundPosition = 'center';
-}
-
-// Apply immediately - Unsplash redirects fast
-applyHeroImage(aiImageUrl);
+heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.15),rgba(0,0,0,0.3)), url('${aiImageUrl}')`;
+heroSection.style.backgroundSize = 'cover';
+heroSection.style.backgroundPosition = 'center';
 
 // Also set colors
 document.getElementById('mockup-book-btn').style.background = scheme.accent;
