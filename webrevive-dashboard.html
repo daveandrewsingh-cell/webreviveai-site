@@ -34,10 +34,23 @@
   .panel-title{font-size:11px;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:18px;}
 
   /* Tags */
-  .tag-row{display:flex;gap:8px;margin-bottom:12px;}
+  .tag-row{display:flex;gap:8px;margin-bottom:12px;position:relative;}
   .tag-row input{flex:1;background:#080c10;border:1px solid #1e2733;border-radius:7px;padding:8px 12px;font-size:13px;color:#e2e8f0;outline:none;}
   .tag-row input:focus{border-color:#00d4ff;}
   .tag-row input::placeholder{color:#2d3748;}
+  .region-btn{background:#111820;border:1px solid #1e2733;border-radius:20px;padding:3px 12px;font-size:11px;font-weight:600;color:#4a5568;cursor:pointer;white-space:nowrap;}
+  .region-btn:hover{border-color:#00d4ff;color:#00d4ff;}
+  .region-btn.active{background:#0a1f2f;border-color:#00d4ff;color:#00d4ff;}
+  /* Dropdowns */
+  .dropdown{position:absolute;top:38px;left:0;background:#0d1117;border:1px solid #1e2733;border-radius:8px;z-index:200;max-height:220px;overflow-y:auto;width:calc(100% - 80px);box-shadow:0 8px 24px rgba(0,0,0,0.5);}
+  .dropdown-item{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;cursor:pointer;font-size:13px;color:#a0aec0;border-bottom:1px solid #111820;}
+  .dropdown-item:last-child{border:none;}
+  .dropdown-item:hover{background:#0a1525;color:#00d4ff;}
+  .dropdown-item.added{color:#2d3748;cursor:default;pointer-events:none;}
+  .dropdown-count{font-size:11px;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+  .high{color:#00e676;background:#0a2a0a;}
+  .med{color:#f6ad55;background:#2a1a00;}
+  .low{color:#4a5568;background:#111820;}
   .tag-add{background:#0a1f2f;border:1px solid #00d4ff;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:600;color:#00d4ff;cursor:pointer;white-space:nowrap;}
   .tag-add:hover{background:#00d4ff;color:#080c10;}
   .tags{display:flex;flex-wrap:wrap;gap:6px;}
@@ -145,18 +158,35 @@
   <div class="grid-2">
     <div class="panel">
       <div class="panel-title">🎯 Target locations</div>
-      <div class="tag-row">
-        <input type="text" id="city-input" placeholder="Add city — e.g. Irvine, CA" />
-        <button class="tag-add" onclick="addTag('city')">+ Add</button>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;" id="region-filters">
+        <button class="region-btn active" onclick="filterRegion('all')">All</button>
+        <button class="region-btn" onclick="filterRegion('SoCal')">SoCal</button>
+        <button class="region-btn" onclick="filterRegion('NorCal')">NorCal</button>
+        <button class="region-btn" onclick="filterRegion('Texas')">Texas</button>
+        <button class="region-btn" onclick="filterRegion('Florida')">Florida</button>
+        <button class="region-btn" onclick="filterRegion('New York')">New York</button>
+        <button class="region-btn" onclick="filterRegion('Midwest')">Midwest</button>
+        <button class="region-btn" onclick="filterRegion('Southeast')">Southeast</button>
+        <button class="region-btn" onclick="filterRegion('Southwest')">Southwest</button>
+        <button class="region-btn" onclick="filterRegion('Northeast')">Northeast</button>
+        <button class="region-btn" onclick="filterRegion('Pacific NW')">Pacific NW</button>
+        <button class="region-btn" onclick="filterRegion('Mountain')">Mountain</button>
+        <button class="region-btn" onclick="filterRegion('South')">South</button>
       </div>
+      <div class="tag-row">
+        <input type="text" id="city-input" placeholder="Search cities..." oninput="filterDropdown('city')" onfocus="showDropdown('city')" onblur="setTimeout(()=>hideDropdown('city'),200)" autocomplete="off"/>
+        <button class="tag-add" onclick="addTagFromInput('city')">+ Add</button>
+      </div>
+      <div id="city-dropdown" class="dropdown" style="display:none;"></div>
       <div class="tags" id="city-tags"></div>
 
       <div class="section-gap">
         <div class="panel-title">🏪 Business types</div>
         <div class="tag-row">
-          <input type="text" id="biz-input" placeholder="Add type — e.g. dentist, hair salon" />
-          <button class="tag-add" onclick="addTag('biz')">+ Add</button>
+          <input type="text" id="biz-input" placeholder="Search business types..." oninput="filterDropdown('biz')" onfocus="showDropdown('biz')" onblur="setTimeout(()=>hideDropdown('biz'),200)" autocomplete="off"/>
+          <button class="tag-add" onclick="addTagFromInput('biz')">+ Add</button>
         </div>
+        <div id="biz-dropdown" class="dropdown" style="display:none;"></div>
         <div class="tags" id="biz-tags"></div>
       </div>
     </div>
@@ -431,21 +461,305 @@ function showToast(msg, isError) {
   setTimeout(() => t.style.display = 'none', 4000);
 }
 
-// ── TAG MANAGEMENT ──────────────────────────────────────────────────────────
-function addTag(type) {
-  const input = document.getElementById(type==='city'?'city-input':'biz-input');
-  const container = document.getElementById(type==='city'?'city-tags':'biz-tags');
-  const val = input.value.trim();
-  if (!val) return;
+// ── DROPDOWN DATA ────────────────────────────────────────────────────────────
+// Nationwide cities ranked by small business density
+// est = estimated targetable small businesses with websites
+const OC_CITIES = [
+  // ── SOUTHERN CALIFORNIA ──
+  { name: 'Los Angeles, CA', est: 42000, tier: 'high', region: 'SoCal' },
+  { name: 'San Diego, CA', est: 28000, tier: 'high', region: 'SoCal' },
+  { name: 'Long Beach, CA', est: 12000, tier: 'high', region: 'SoCal' },
+  { name: 'Anaheim, CA', est: 8500, tier: 'high', region: 'SoCal' },
+  { name: 'Santa Ana, CA', est: 7800, tier: 'high', region: 'SoCal' },
+  { name: 'Riverside, CA', est: 7200, tier: 'high', region: 'SoCal' },
+  { name: 'Glendale, CA', est: 6800, tier: 'high', region: 'SoCal' },
+  { name: 'Irvine, CA', est: 6500, tier: 'high', region: 'SoCal' },
+  { name: 'Huntington Beach, CA', est: 5200, tier: 'high', region: 'SoCal' },
+  { name: 'Torrance, CA', est: 4800, tier: 'high', region: 'SoCal' },
+  { name: 'Pasadena, CA', est: 4600, tier: 'high', region: 'SoCal' },
+  { name: 'Pomona, CA', est: 4200, tier: 'high', region: 'SoCal' },
+  { name: 'Ontario, CA', est: 4000, tier: 'high', region: 'SoCal' },
+  { name: 'Burbank, CA', est: 3800, tier: 'high', region: 'SoCal' },
+  { name: 'Compton, CA', est: 3200, tier: 'med', region: 'SoCal' },
+  { name: 'Garden Grove, CA', est: 3100, tier: 'med', region: 'SoCal' },
+  { name: 'Fullerton, CA', est: 2900, tier: 'med', region: 'SoCal' },
+  { name: 'Orange, CA', est: 2800, tier: 'med', region: 'SoCal' },
+  { name: 'Costa Mesa, CA', est: 2600, tier: 'med', region: 'SoCal' },
+  { name: 'Westminster, CA', est: 2200, tier: 'med', region: 'SoCal' },
+  // ── NORTHERN CALIFORNIA ──
+  { name: 'San Jose, CA', est: 22000, tier: 'high', region: 'NorCal' },
+  { name: 'San Francisco, CA', est: 32000, tier: 'high', region: 'NorCal' },
+  { name: 'Oakland, CA', est: 14000, tier: 'high', region: 'NorCal' },
+  { name: 'Sacramento, CA', est: 13000, tier: 'high', region: 'NorCal' },
+  { name: 'Fresno, CA', est: 9500, tier: 'high', region: 'NorCal' },
+  { name: 'Stockton, CA', est: 7800, tier: 'high', region: 'NorCal' },
+  { name: 'Modesto, CA', est: 5200, tier: 'high', region: 'NorCal' },
+  // ── TEXAS ──
+  { name: 'Houston, TX', est: 48000, tier: 'high', region: 'Texas' },
+  { name: 'San Antonio, TX', est: 32000, tier: 'high', region: 'Texas' },
+  { name: 'Dallas, TX', est: 38000, tier: 'high', region: 'Texas' },
+  { name: 'Austin, TX', est: 28000, tier: 'high', region: 'Texas' },
+  { name: 'Fort Worth, TX', est: 18000, tier: 'high', region: 'Texas' },
+  { name: 'El Paso, TX', est: 12000, tier: 'high', region: 'Texas' },
+  { name: 'Arlington, TX', est: 10000, tier: 'high', region: 'Texas' },
+  { name: 'Plano, TX', est: 9200, tier: 'high', region: 'Texas' },
+  { name: 'Laredo, TX', est: 7800, tier: 'high', region: 'Texas' },
+  { name: 'Irving, TX', est: 7200, tier: 'high', region: 'Texas' },
+  { name: 'Lubbock, TX', est: 6800, tier: 'high', region: 'Texas' },
+  { name: 'Garland, TX', est: 6200, tier: 'med', region: 'Texas' },
+  { name: 'Frisco, TX', est: 5800, tier: 'med', region: 'Texas' },
+  { name: 'McKinney, TX', est: 5200, tier: 'med', region: 'Texas' },
+  // ── FLORIDA ──
+  { name: 'Jacksonville, FL', est: 22000, tier: 'high', region: 'Florida' },
+  { name: 'Miami, FL', est: 38000, tier: 'high', region: 'Florida' },
+  { name: 'Tampa, FL', est: 18000, tier: 'high', region: 'Florida' },
+  { name: 'Orlando, FL', est: 16000, tier: 'high', region: 'Florida' },
+  { name: 'St. Petersburg, FL', est: 12000, tier: 'high', region: 'Florida' },
+  { name: 'Hialeah, FL', est: 9800, tier: 'high', region: 'Florida' },
+  { name: 'Tallahassee, FL', est: 8200, tier: 'high', region: 'Florida' },
+  { name: 'Fort Lauderdale, FL', est: 14000, tier: 'high', region: 'Florida' },
+  { name: 'Port St. Lucie, FL', est: 6800, tier: 'med', region: 'Florida' },
+  { name: 'Pembroke Pines, FL', est: 6200, tier: 'med', region: 'Florida' },
+  { name: 'Boca Raton, FL', est: 8500, tier: 'high', region: 'Florida' },
+  { name: 'Clearwater, FL', est: 5800, tier: 'med', region: 'Florida' },
+  // ── NEW YORK ──
+  { name: 'New York, NY', est: 95000, tier: 'high', region: 'New York' },
+  { name: 'Brooklyn, NY', est: 42000, tier: 'high', region: 'New York' },
+  { name: 'Queens, NY', est: 38000, tier: 'high', region: 'New York' },
+  { name: 'Bronx, NY', est: 18000, tier: 'high', region: 'New York' },
+  { name: 'Buffalo, NY', est: 9200, tier: 'high', region: 'New York' },
+  { name: 'Rochester, NY', est: 7800, tier: 'high', region: 'New York' },
+  { name: 'Yonkers, NY', est: 8500, tier: 'high', region: 'New York' },
+  // ── ILLINOIS ──
+  { name: 'Chicago, IL', est: 52000, tier: 'high', region: 'Midwest' },
+  { name: 'Aurora, IL', est: 8200, tier: 'high', region: 'Midwest' },
+  { name: 'Rockford, IL', est: 5800, tier: 'med', region: 'Midwest' },
+  { name: 'Joliet, IL', est: 5200, tier: 'med', region: 'Midwest' },
+  // ── ARIZONA ──
+  { name: 'Phoenix, AZ', est: 38000, tier: 'high', region: 'Southwest' },
+  { name: 'Tucson, AZ', est: 14000, tier: 'high', region: 'Southwest' },
+  { name: 'Mesa, AZ', est: 12000, tier: 'high', region: 'Southwest' },
+  { name: 'Chandler, AZ', est: 9800, tier: 'high', region: 'Southwest' },
+  { name: 'Scottsdale, AZ', est: 12500, tier: 'high', region: 'Southwest' },
+  { name: 'Gilbert, AZ', est: 8200, tier: 'high', region: 'Southwest' },
+  { name: 'Glendale, AZ', est: 7800, tier: 'high', region: 'Southwest' },
+  { name: 'Tempe, AZ', est: 8500, tier: 'high', region: 'Southwest' },
+  { name: 'Peoria, AZ', est: 6800, tier: 'med', region: 'Southwest' },
+  // ── GEORGIA ──
+  { name: 'Atlanta, GA', est: 32000, tier: 'high', region: 'Southeast' },
+  { name: 'Augusta, GA', est: 8200, tier: 'high', region: 'Southeast' },
+  { name: 'Columbus, GA', est: 6800, tier: 'med', region: 'Southeast' },
+  { name: 'Macon, GA', est: 5200, tier: 'med', region: 'Southeast' },
+  // ── NORTH CAROLINA ──
+  { name: 'Charlotte, NC', est: 22000, tier: 'high', region: 'Southeast' },
+  { name: 'Raleigh, NC', est: 18000, tier: 'high', region: 'Southeast' },
+  { name: 'Greensboro, NC', est: 9800, tier: 'high', region: 'Southeast' },
+  { name: 'Durham, NC', est: 9200, tier: 'high', region: 'Southeast' },
+  { name: 'Winston-Salem, NC', est: 7800, tier: 'high', region: 'Southeast' },
+  // ── OHIO ──
+  { name: 'Columbus, OH', est: 22000, tier: 'high', region: 'Midwest' },
+  { name: 'Cleveland, OH', est: 16000, tier: 'high', region: 'Midwest' },
+  { name: 'Cincinnati, OH', est: 14000, tier: 'high', region: 'Midwest' },
+  { name: 'Toledo, OH', est: 7800, tier: 'high', region: 'Midwest' },
+  { name: 'Akron, OH', est: 7200, tier: 'high', region: 'Midwest' },
+  // ── PENNSYLVANIA ──
+  { name: 'Philadelphia, PA', est: 32000, tier: 'high', region: 'Northeast' },
+  { name: 'Pittsburgh, PA', est: 14000, tier: 'high', region: 'Northeast' },
+  { name: 'Allentown, PA', est: 6800, tier: 'med', region: 'Northeast' },
+  // ── MICHIGAN ──
+  { name: 'Detroit, MI', est: 18000, tier: 'high', region: 'Midwest' },
+  { name: 'Grand Rapids, MI', est: 8500, tier: 'high', region: 'Midwest' },
+  { name: 'Warren, MI', est: 6200, tier: 'med', region: 'Midwest' },
+  { name: 'Sterling Heights, MI', est: 5800, tier: 'med', region: 'Midwest' },
+  // ── WASHINGTON ──
+  { name: 'Seattle, WA', est: 28000, tier: 'high', region: 'Pacific NW' },
+  { name: 'Spokane, WA', est: 8500, tier: 'high', region: 'Pacific NW' },
+  { name: 'Tacoma, WA', est: 8200, tier: 'high', region: 'Pacific NW' },
+  { name: 'Bellevue, WA', est: 9800, tier: 'high', region: 'Pacific NW' },
+  // ── COLORADO ──
+  { name: 'Denver, CO', est: 24000, tier: 'high', region: 'Mountain' },
+  { name: 'Colorado Springs, CO', est: 9800, tier: 'high', region: 'Mountain' },
+  { name: 'Aurora, CO', est: 8500, tier: 'high', region: 'Mountain' },
+  { name: 'Fort Collins, CO', est: 6800, tier: 'med', region: 'Mountain' },
+  // ── NEVADA ──
+  { name: 'Las Vegas, NV', est: 28000, tier: 'high', region: 'Southwest' },
+  { name: 'Henderson, NV', est: 9200, tier: 'high', region: 'Southwest' },
+  { name: 'Reno, NV', est: 7800, tier: 'high', region: 'Southwest' },
+  // ── TENNESSEE ──
+  { name: 'Nashville, TN', est: 18000, tier: 'high', region: 'Southeast' },
+  { name: 'Memphis, TN', est: 14000, tier: 'high', region: 'Southeast' },
+  { name: 'Knoxville, TN', est: 7800, tier: 'high', region: 'Southeast' },
+  // ── MASSACHUSETTS ──
+  { name: 'Boston, MA', est: 28000, tier: 'high', region: 'Northeast' },
+  { name: 'Worcester, MA', est: 8200, tier: 'high', region: 'Northeast' },
+  { name: 'Springfield, MA', est: 5800, tier: 'med', region: 'Northeast' },
+  // ── VIRGINIA ──
+  { name: 'Virginia Beach, VA', est: 12000, tier: 'high', region: 'Southeast' },
+  { name: 'Norfolk, VA', est: 9200, tier: 'high', region: 'Southeast' },
+  { name: 'Richmond, VA', est: 12500, tier: 'high', region: 'Southeast' },
+  { name: 'Chesapeake, VA', est: 8500, tier: 'high', region: 'Southeast' },
+  // ── MINNESOTA ──
+  { name: 'Minneapolis, MN', est: 18000, tier: 'high', region: 'Midwest' },
+  { name: 'St. Paul, MN', est: 12000, tier: 'high', region: 'Midwest' },
+  // ── LOUISIANA ──
+  { name: 'New Orleans, LA', est: 14000, tier: 'high', region: 'South' },
+  { name: 'Baton Rouge, LA', est: 9200, tier: 'high', region: 'South' },
+  // ── OREGON ──
+  { name: 'Portland, OR', est: 18000, tier: 'high', region: 'Pacific NW' },
+  { name: 'Eugene, OR', est: 6800, tier: 'med', region: 'Pacific NW' },
+  // ── WISCONSIN ──
+  { name: 'Milwaukee, WI', est: 14000, tier: 'high', region: 'Midwest' },
+  { name: 'Madison, WI', est: 9800, tier: 'high', region: 'Midwest' },
+  // ── MARYLAND ──
+  { name: 'Baltimore, MD', est: 16000, tier: 'high', region: 'Northeast' },
+  // ── INDIANA ──
+  { name: 'Indianapolis, IN', est: 18000, tier: 'high', region: 'Midwest' },
+  { name: 'Fort Wayne, IN', est: 7200, tier: 'med', region: 'Midwest' },
+  // ── KENTUCKY ──
+  { name: 'Louisville, KY', est: 14000, tier: 'high', region: 'South' },
+  { name: 'Lexington, KY', est: 9200, tier: 'high', region: 'South' },
+  // ── MISSOURI ──
+  { name: 'Kansas City, MO', est: 16000, tier: 'high', region: 'Midwest' },
+  { name: 'St. Louis, MO', est: 14000, tier: 'high', region: 'Midwest' },
+  // ── SOUTH CAROLINA ──
+  { name: 'Columbia, SC', est: 8500, tier: 'high', region: 'Southeast' },
+  { name: 'Charleston, SC', est: 9800, tier: 'high', region: 'Southeast' },
+  // ── ALABAMA ──
+  { name: 'Birmingham, AL', est: 9800, tier: 'high', region: 'South' },
+  { name: 'Montgomery, AL', est: 6800, tier: 'med', region: 'South' },
+  // ── NEW MEXICO ──
+  { name: 'Albuquerque, NM', est: 9800, tier: 'high', region: 'Southwest' },
+  { name: 'Santa Fe, NM', est: 5200, tier: 'med', region: 'Southwest' },
+  // ── UTAH ──
+  { name: 'Salt Lake City, UT', est: 12000, tier: 'high', region: 'Mountain' },
+  { name: 'West Valley City, UT', est: 5800, tier: 'med', region: 'Mountain' },
+  { name: 'Provo, UT', est: 6200, tier: 'med', region: 'Mountain' },
+];
+
+const BIZ_TYPES = [
+  { name: 'auto repair shop', label: 'Auto Repair Shop', icon: '🔧' },
+  { name: 'barbershop', label: 'Barbershop', icon: '✂️' },
+  { name: 'nail salon', label: 'Nail Salon', icon: '💅' },
+  { name: 'hair salon', label: 'Hair Salon', icon: '💇' },
+  { name: 'restaurant', label: 'Restaurant', icon: '🍽️' },
+  { name: 'dentist', label: 'Dentist', icon: '🦷' },
+  { name: 'plumber', label: 'Plumber', icon: '🪠' },
+  { name: 'gas station', label: 'Gas Station', icon: '⛽' },
+  { name: 'chiropractor', label: 'Chiropractor', icon: '🏥' },
+  { name: 'pet grooming', label: 'Pet Grooming', icon: '🐾' },
+  { name: 'laundromat', label: 'Laundromat', icon: '👕' },
+  { name: 'dry cleaner', label: 'Dry Cleaner', icon: '👔' },
+  { name: 'pizza restaurant', label: 'Pizza Restaurant', icon: '🍕' },
+  { name: 'mexican restaurant', label: 'Mexican Restaurant', icon: '🌮' },
+  { name: 'chinese restaurant', label: 'Chinese Restaurant', icon: '🥡' },
+  { name: 'optometrist', label: 'Optometrist', icon: '👓' },
+  { name: 'electrician', label: 'Electrician', icon: '⚡' },
+  { name: 'hvac contractor', label: 'HVAC / AC Repair', icon: '❄️' },
+  { name: 'landscaping', label: 'Landscaping', icon: '🌿' },
+  { name: 'car wash', label: 'Car Wash', icon: '🚗' },
+  { name: 'tattoo parlor', label: 'Tattoo Shop', icon: '🎨' },
+  { name: 'yoga studio', label: 'Yoga Studio', icon: '🧘' },
+  { name: 'gym', label: 'Gym / Fitness', icon: '💪' },
+  { name: 'physical therapist', label: 'Physical Therapy', icon: '🏃' },
+  { name: 'insurance agency', label: 'Insurance Agency', icon: '🛡️' },
+  { name: 'real estate agency', label: 'Real Estate', icon: '🏠' },
+  { name: 'accounting', label: 'Accountant / CPA', icon: '📊' },
+  { name: 'pharmacy', label: 'Pharmacy', icon: '💊' },
+  { name: 'florist', label: 'Florist', icon: '💐' },
+  { name: 'bakery', label: 'Bakery', icon: '🧁' },
+];
+
+function getAddedTags(type) {
+  const container = document.getElementById(type === 'city' ? 'city-tags' : 'biz-tags');
+  return [...container.querySelectorAll('.tag')].map(t => t.childNodes[0].textContent.trim().toLowerCase());
+}
+
+let activeRegion = 'all';
+function filterRegion(region) {
+  activeRegion = region;
+  document.querySelectorAll('.region-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === region || (region === 'all' && b.textContent === 'All'));
+  });
+  filterDropdown('city');
+}
+
+function filterDropdown(type) {
+  const input = document.getElementById(type === 'city' ? 'city-input' : 'biz-input');
+  const dropdown = document.getElementById(type === 'city' ? 'city-dropdown' : 'biz-dropdown');
+  const query = input.value.toLowerCase();
+  const added = getAddedTags(type);
+  const items = type === 'city' ? OC_CITIES : BIZ_TYPES;
+
+  const filtered = items.filter(item => {
+    const name = (item.name || '').toLowerCase();
+    const label = (item.label || '').toLowerCase();
+    const matchesQuery = name.includes(query) || label.includes(query);
+    const matchesRegion = type !== 'city' || activeRegion === 'all' || item.region === activeRegion;
+    return matchesQuery && matchesRegion;
+  });
+
+  if (!filtered.length) { dropdown.style.display = 'none'; return; }
+
+  dropdown.innerHTML = filtered.map(item => {
+    const displayName = item.label || item.name;
+    const value = item.name;
+    const isAdded = added.includes(value.toLowerCase());
+    if (type === 'city') {
+      const countClass = item.tier === 'high' ? 'high' : item.tier === 'med' ? 'med' : 'low';
+      return `<div class="dropdown-item ${isAdded?'added':''}" onclick="${isAdded?'':`pickDropdown('city','${value.replace(/'/g,"\\'")}');`}">
+        <span>${item.icon||''} ${displayName}</span>
+        <span class="dropdown-count ${countClass}">~${item.est.toLocaleString()} biz${isAdded?' ✓':''}</span>
+      </div>`;
+    } else {
+      return `<div class="dropdown-item ${isAdded?'added':''}" onclick="${isAdded?'':` pickDropdown('biz','${value.replace(/'/g,"\\'")}');`}">
+        <span>${item.icon||''} ${displayName}</span>
+        ${isAdded?'<span style="color:#4a5568;font-size:11px;">added</span>':''}
+      </div>`;
+    }
+  }).join('');
+
+  dropdown.style.display = 'block';
+}
+
+function showDropdown(type) {
+  const input = document.getElementById(type === 'city' ? 'city-input' : 'biz-input');
+  input.value = '';
+  filterDropdown(type);
+}
+
+function hideDropdown(type) {
+  document.getElementById(type === 'city' ? 'city-dropdown' : 'biz-dropdown').style.display = 'none';
+}
+
+function pickDropdown(type, value) {
+  addTagValue(type, value);
+  document.getElementById(type === 'city' ? 'city-input' : 'biz-input').value = '';
+  hideDropdown(type);
+}
+
+function addTagFromInput(type) {
+  const input = document.getElementById(type === 'city' ? 'city-input' : 'biz-input');
+  if (input.value.trim()) addTagValue(type, input.value.trim());
+  input.value = '';
+  hideDropdown(type);
+}
+
+function addTagValue(type, value) {
+  const container = document.getElementById(type === 'city' ? 'city-tags' : 'biz-tags');
+  const existing = getAddedTags(type);
+  if (existing.includes(value.toLowerCase())) return;
   const tag = document.createElement('span');
   tag.className = 'tag';
-  tag.innerHTML = val + '<button onclick="this.parentElement.remove()" aria-label="Remove">×</button>';
+  tag.innerHTML = value + '<button onclick="this.parentElement.remove()" aria-label="Remove">×</button>';
   container.appendChild(tag);
-  input.value = '';
-  input.focus();
 }
-document.getElementById('city-input').addEventListener('keydown', e=>{ if(e.key==='Enter') addTag('city'); });
-document.getElementById('biz-input').addEventListener('keydown', e=>{ if(e.key==='Enter') addTag('biz'); });
+
+// ── TAG MANAGEMENT ──────────────────────────────────────────────────────────
+function addTag(type) {
+  addTagFromInput(type);
+}
+document.getElementById('city-input').addEventListener('keydown', e=>{ if(e.key==='Enter') addTagFromInput('city'); });
+document.getElementById('biz-input').addEventListener('keydown', e=>{ if(e.key==='Enter') addTagFromInput('biz'); });
 
 // ── INIT ────────────────────────────────────────────────────────────────────
 loadDashboardData();
