@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1a2a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a3a5a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="500" fill="url(#g)"/>
+  <!-- Pipe shapes -->
+  <rect x="200" y="240" width="800" height="20" rx="10" fill="none" stroke="#4fb3e8" stroke-width="1.5" opacity="0.2"/>
+  <rect x="560" y="100" width="80" height="160" rx="10" fill="none" stroke="#4fb3e8" stroke-width="1.5" opacity="0.2"/>
+  <rect x="560" y="260" width="80" height="140" rx="10" fill="none" stroke="#4fb3e8" stroke-width="1.5" opacity="0.15"/>
+  <!-- Water drop -->
+  <path d="M600 140 Q620 170 620 190 Q620 215 600 215 Q580 215 580 190 Q580 170 600 140 Z" fill="none" stroke="#4fb3e8" stroke-width="1.5" opacity="0.3"/>
+  <!-- Wrench -->
+  <path d="M800 150 Q830 140 850 160 L900 240 Q908 252 900 263 Q885 278 870 265 L820 185 Q802 165 800 150 Z" fill="none" stroke="#4fb3e8" stroke-width="1.5" opacity="0.2"/>
+  <!-- Dots -->
+  <circle cx="150" cy="180" r="2" fill="#4fb3e8" opacity="0.3"/>
+  <circle cx="1050" cy="160" r="2" fill="#4fb3e8" opacity="0.3"/>
+  <circle cx="300" cy="380" r="1.5" fill="#4fb3e8" opacity="0.25"/>
+  <circle cx="900" cy="390" r="1.5" fill="#4fb3e8" opacity="0.25"/>
+</svg>

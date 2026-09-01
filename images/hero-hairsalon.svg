@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3a1a3a;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" style="stop-color:#d4a0d4;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#1a0a1a;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="500" fill="url(#g)"/>
+  <rect width="1200" height="500" fill="url(#glow)"/>
+  <!-- Hair dryer silhouette -->
+  <path d="M450 200 Q500 180 550 200 L580 240 Q560 270 530 270 L470 270 Q440 270 420 240 Z" fill="none" stroke="#d4a0d4" stroke-width="1.5" opacity="0.25"/>
+  <line x1="580" y1="250" x2="650" y2="280" stroke="#d4a0d4" stroke-width="2" opacity="0.2"/>
+  <!-- Flowing hair curves -->
+  <path d="M500 100 Q600 150 550 250 Q500 350 600 400" fill="none" stroke="#d4a0d4" stroke-width="1.5" opacity="0.15"/>
+  <path d="M600 90 Q700 140 650 240 Q600 340 700 390" fill="none" stroke="#d4a0d4" stroke-width="1.5" opacity="0.12"/>
+  <path d="M400 110 Q500 160 450 260 Q400 360 500 410" fill="none" stroke="#d4a0d4" stroke-width="1.5" opacity="0.12"/>
+  <!-- Dots -->
+  <circle cx="200" cy="180" r="2" fill="#d4a0d4" opacity="0.3"/>
+  <circle cx="950" cy="160" r="2" fill="#d4a0d4" opacity="0.3"/>
+  <circle cx="100" cy="380" r="1.5" fill="#d4a0d4" opacity="0.25"/>
+  <circle cx="1100" cy="350" r="1.5" fill="#d4a0d4" opacity="0.25"/>
+</svg>

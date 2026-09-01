@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#001a33;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#003366;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" style="stop-color:#4fb3e8;stop-opacity:0.25" />
+      <stop offset="100%" style="stop-color:#001a33;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="500" fill="url(#g)"/>
+  <rect width="1200" height="500" fill="url(#glow)"/>
+  <!-- Tooth shape -->
+  <path d="M520 150 Q540 120 560 130 Q580 110 600 130 Q620 110 640 130 Q660 120 680 150 Q700 200 690 260 Q680 310 660 330 Q640 350 620 330 Q610 310 600 310 Q590 310 580 330 Q560 350 540 330 Q520 310 510 260 Q500 200 520 150 Z" fill="none" stroke="#4fb3e8" stroke-width="2" opacity="0.35"/>
+  <!-- Cross/plus medical symbol -->
+  <rect x="570" y="60" width="60" height="20" rx="10" fill="#4fb3e8" opacity="0.2"/>
+  <rect x="590" y="40" width="20" height="60" rx="10" fill="#4fb3e8" opacity="0.2"/>
+  <!-- Clean lines suggesting clinical space -->
+  <line x1="0" y1="400" x2="1200" y2="400" stroke="#4fb3e8" stroke-width="0.5" opacity="0.15"/>
+  <line x1="0" y1="450" x2="1200" y2="450" stroke="#4fb3e8" stroke-width="0.5" opacity="0.1"/>
+  <!-- Dots pattern -->
+  <circle cx="200" cy="200" r="2" fill="#4fb3e8" opacity="0.3"/>
+  <circle cx="400" cy="150" r="1.5" fill="#4fb3e8" opacity="0.25"/>
+  <circle cx="800" cy="180" r="2" fill="#4fb3e8" opacity="0.3"/>
+  <circle cx="1000" cy="150" r="1.5" fill="#4fb3e8" opacity="0.25"/>
+  <circle cx="100" cy="350" r="1" fill="#4fb3e8" opacity="0.2"/>
+  <circle cx="1100" cy="320" r="1.5" fill="#4fb3e8" opacity="0.2"/>
+</svg>
